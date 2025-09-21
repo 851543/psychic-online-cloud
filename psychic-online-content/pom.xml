@@ -20,12 +20,4 @@
         <module>psychic-online-content-service</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.psychic</groupId>
-            <artifactId>psychic-online-content-model</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
-
 </project>
