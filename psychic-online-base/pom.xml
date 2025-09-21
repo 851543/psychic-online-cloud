@@ -11,7 +11,7 @@
     </parent>
 
 
-    <artifactId>xuecheng-plus-base</artifactId>
+    <artifactId>psychic-online-base</artifactId>
 
     <dependencies>
         <dependency>

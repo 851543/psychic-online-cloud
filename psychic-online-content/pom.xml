@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>psychic-online-parent</artifactId>
+        <groupId>com.psychic</groupId>
+        <version>1.0.0</version>
+        <relativePath>../psychic-online-parent</relativePath>
+    </parent>
+    <artifactId>psychic-online-content</artifactId>
+    <name>psychic-online-content</name>
+    <description>psychic-online-content</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>psychic-online-content-api</module>
+        <module>psychic-online-content-model</module>
+        <module>psychic-online-content-service</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.psychic</groupId>
+            <artifactId>psychic-online-content-model</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+</project>
