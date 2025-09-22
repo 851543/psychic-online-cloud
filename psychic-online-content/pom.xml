@@ -9,10 +9,9 @@
         <version>1.0.0</version>
         <relativePath>../psychic-online-parent</relativePath>
     </parent>
-    <artifactId>psychic-online-content</artifactId>
-    <name>psychic-online-content</name>
-    <description>psychic-online-content</description>
+
     <packaging>pom</packaging>
+    <artifactId>psychic-online-content</artifactId>
 
     <modules>
         <module>psychic-online-content-api</module>
