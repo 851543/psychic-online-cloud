@@ -24,7 +24,7 @@ import java.util.List;
 public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 
     @Autowired
-    CourseBaseMapper courseBaseMapper;
+    private CourseBaseMapper courseBaseMapper;
 
     @Override
     public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
