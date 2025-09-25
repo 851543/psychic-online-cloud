@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * 
  * </p>
  *
- * @author itcast
+ * @author 851543
  */
 @Data
 @ApiModel(value="TeachplanMediaDTO", description="")

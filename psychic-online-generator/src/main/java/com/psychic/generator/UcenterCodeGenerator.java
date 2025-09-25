@@ -48,7 +48,7 @@ public class UcenterCodeGenerator {
 		gc.setFileOverride(true);
 		//生成路径
 		gc.setOutputDir(System.getProperty("user.dir") + "/psychic-online-generator/src/main/java");
-		gc.setAuthor("itcast");
+		gc.setAuthor("851543");
 		gc.setOpen(false);
 		gc.setSwagger2(false);
 		gc.setServiceName("%sService");

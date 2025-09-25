@@ -8,7 +8,7 @@ import com.psychic.content.model.po.CourseCategory;
  * 课程分类 Mapper 接口
  * </p>
  *
- * @author itcast
+ * @author 851543
  */
 public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
 

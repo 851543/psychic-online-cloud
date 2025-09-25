@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @description 课程信息管理业务接口实现类
- * @author Mr.M
+ * @author 851543
  * @date 2022/9/6 21:45
  * @version 1.0
  */

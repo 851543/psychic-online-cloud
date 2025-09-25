@@ -8,7 +8,7 @@ import com.psychic.content.model.po.TeachplanMedia;
  *  Mapper 接口
  * </p>
  *
- * @author itcast
+ * @author 851543
  */
 public interface TeachplanMediaMapper extends BaseMapper<TeachplanMedia> {
 

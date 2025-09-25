@@ -5,7 +5,7 @@ import lombok.ToString;
 
 /**
  * @description 分页查询通用参数
- * @author Mr.M
+ * @author 851543
  * @date 2022/9/6 14:02
  * @version 1.0
  */

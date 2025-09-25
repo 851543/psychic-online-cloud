@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @description 课程信息编辑接口
- * @author Mr.M
+ * @author 851543
  * @date 2022/9/6 11:29
  * @version 1.0
  */

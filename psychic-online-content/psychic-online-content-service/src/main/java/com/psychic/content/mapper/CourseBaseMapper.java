@@ -8,7 +8,7 @@ import com.psychic.content.model.po.CourseBase;
  * 课程基本信息 Mapper 接口
  * </p>
  *
- * @author itcast
+ * @author 851543
  */
 public interface CourseBaseMapper extends BaseMapper<CourseBase> {
 

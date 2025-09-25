@@ -7,7 +7,7 @@ import com.psychic.content.model.po.CourseBase;
 
 /**
  * @description 课程基本信息管理业务接口
- * @author Mr.M
+ * @author 851543
  * @date 2022/9/6 21:42
  * @version 1.0
 */
