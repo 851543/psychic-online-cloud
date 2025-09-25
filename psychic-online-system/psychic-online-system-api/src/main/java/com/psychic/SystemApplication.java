@@ -1,4 +1,4 @@
-package com.psychic.system;
+package com.psychic;
 
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
