@@ -5,6 +5,7 @@ import com.psychic.base.model.PageParams;
 import com.psychic.base.model.PageResult;
 import com.psychic.content.model.dto.AddCourseDto;
 import com.psychic.content.model.dto.CourseBaseInfoDto;
+import com.psychic.content.model.dto.EditCourseDto;
 import com.psychic.content.model.dto.QueryCourseParamsDto;
 import com.psychic.content.model.po.CourseBase;
 import com.psychic.content.service.CourseBaseInfoService;
@@ -12,9 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 851543
@@ -39,5 +38,17 @@ public class CourseBaseInfoController {
     @PostMapping("/course")
     public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto) {
         return courseBaseInfoService.createCourseBase(1232141425L, addCourseDto);
+    }
+
+    @ApiOperation("根据课程id查询课程基础信息")
+    @GetMapping("/course/{courseId}")
+    public CourseBaseInfoDto getCourseBaseById(@PathVariable Long courseId){
+        return courseBaseInfoService.getCourseBaseInfo(courseId);
+    }
+
+    @ApiOperation("修改课程基础信息")
+    @PutMapping("/course")
+    public CourseBaseInfoDto modifyCourseBase(@RequestBody EditCourseDto editCourseDto){
+        return courseBaseInfoService.updateCourseBase(1232141425L,editCourseDto);
     }
 }
