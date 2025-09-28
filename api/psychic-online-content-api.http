@@ -58,3 +58,25 @@ Content-Type: application/json
 
 ###
 GET {{content_host}}/teachplan/74/tree-nodes
+
+###
+POST {{content_host}}/teachplan
+Content-Type: application/json
+
+{
+  "courseId" : 74,
+  "parentid": 0,
+  "grade" : 1,
+  "pname" : "新章名称 [点击修改]"
+}
+
+###
+POST {{content_host}}/teachplan
+Content-Type: application/json
+
+{
+  "courseId" : 74,
+  "parentid": 247,
+  "grade" : 2,
+  "pname" : "小节名称 [点击修改]"
+}
