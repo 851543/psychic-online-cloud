@@ -40,7 +40,7 @@ public interface CourseBaseInfoService {
      * @description 修改课程信息
      * @param companyId  机构id
      * @param dto  课程信息
-     * @return com.xuecheng.content.model.dto.CourseBaseInfoDto
+     * @return com.psychic.content.model.dto.CourseBaseInfoDto
      * @author Mr.M
      * @date 2022/9/8 21:04
      */
