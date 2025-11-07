@@ -1,7 +1,7 @@
 package com.psychic.base.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.xuecheng.base.model.RestResponse;
+import com.psychic.base.model.RestResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
