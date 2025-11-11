@@ -112,4 +112,6 @@ public interface MediaFileService {
      * @date 2022/10/12 21:22
      */
     public boolean addMediaFilesToMinIO(String localFilePath,String mimeType,String bucket, String objectName);
+
+    public MediaFiles getFileById(String mediaId);
 }
