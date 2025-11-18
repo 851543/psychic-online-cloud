@@ -15,7 +15,6 @@ import com.psychic.media.model.dto.UploadFileParamsDto;
 import com.psychic.media.model.dto.UploadFileResultDto;
 import com.psychic.media.model.po.MediaFiles;
 import com.psychic.media.model.po.MediaProcess;
-import com.psychic.media.service.MediaFileProcessService;
 import com.psychic.media.service.MediaFileService;
 import io.minio.*;
 import io.minio.messages.DeleteError;
@@ -23,6 +22,7 @@ import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,7 +89,7 @@ public class MediaFileServiceImpl implements MediaFileService {
  }
 
  @Override
- public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath) {
+ public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName) {
   File file = new File(localFilePath);
   if (!file.exists()) {
     throw new ServiceException("文件不存在");
@@ -105,7 +105,9 @@ public class MediaFileServiceImpl implements MediaFileService {
   //文件的默认目录
   String defaultFolderPath = getDefaultFolderPath();
   //存储到minio中的对象名(带目录)
-  String  objectName = defaultFolderPath + fileMd5 + extension;
+  if(StringUtils.isEmpty(objectName)){
+   objectName =  defaultFolderPath + fileMd5 + extension;
+  }
   //将文件上传到minio
   boolean b = addMediaFilesToMinIO(localFilePath, mimeType, bucket_Files, objectName);
   //文件大小

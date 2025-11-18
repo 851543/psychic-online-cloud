@@ -1,13 +1,16 @@
 package com.psychic.content.service.jobhandler;
 
+import com.psychic.content.service.CoursePublishService;
 import com.psychic.messagesdk.model.po.MqMessage;
 import com.psychic.messagesdk.service.MessageProcessAbstract;
 import com.psychic.messagesdk.service.MqMessageService;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,6 +22,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 public class CoursePublishTask extends MessageProcessAbstract {
+
+    @Autowired
+    CoursePublishService coursePublishService;
 
     //任务调度入口
     @XxlJob("CoursePublishJobHandler")
@@ -49,7 +55,6 @@ public class CoursePublishTask extends MessageProcessAbstract {
 
     //生成课程静态化页面并上传至文件系统
     public void generateCourseHtml(MqMessage mqMessage,long courseId){
-
         log.debug("开始进行课程静态化,课程id:{}",courseId);
         //消息id
         Long id = mqMessage.getId();
@@ -57,14 +62,16 @@ public class CoursePublishTask extends MessageProcessAbstract {
         MqMessageService mqMessageService = this.getMqMessageService();
         //消息幂等性处理
         int stageOne = mqMessageService.getStageOne(id);
-        if(stageOne >0){
+        if(stageOne == 1){
             log.debug("课程静态化已处理直接返回，课程id:{}",courseId);
             return ;
         }
-        try {
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+
+        //生成静态化页面
+        File file = coursePublishService.generateCourseHtml(courseId);
+        //上传静态化页面
+        if(file!=null){
+            coursePublishService.uploadCourseHtml(courseId,file);
         }
         //保存第一阶段状态
         mqMessageService.completedStageOne(id);
