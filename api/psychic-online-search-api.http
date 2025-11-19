@@ -1,4 +1,4 @@
-POST {{gateway_host}}/search/index/course
+POST {{search_host}}/search/index/course
 Content-Type: application/json
 
 {
@@ -25,6 +25,6 @@ Content-Type: application/json
 }
 
 ###
-GET {{search_host}}/search/course/list?pageNo=1&keywords=spring
+GET {{gateway_host}}/search/course/list?pageNo=1&keywords=spring
 Content-Type: application/json
 
