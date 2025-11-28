@@ -1,5 +1,5 @@
 ###
-POST {{gateway_host}}/content/course/list?pageNo=1&pageSize=10
+POST {{content_host}}/content/course/list?pageNo=1&pageSize=10
 Content-Type: application/json
 
 {
@@ -82,8 +82,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:63010/content/course/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicHN5Y2hpYy1vbmxpbmUiXSwidXNlcl9uYW1lIjoiemhhbmdzYW4iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNzYzNzIxMzIwLCJhdXRob3JpdGllcyI6WyJwMSJdLCJqdGkiOiJlMThjYmVmOS02ZTAxLTQzZTEtYWVhOS0yZWRkNDJmYmUzNjMiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.JjpVvgdD_E_PBWSeajZso9zUfeoOXKqOEC8YNNg3LTE
+GET http://localhost:63040/content/course/2
 
 ###
 POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","authType":"password","password":"111111"}

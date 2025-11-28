@@ -25,14 +25,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    DaoAuthenticationProviderCustom daoAuthenticationProviderCustom;
-
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProviderCustom);
-    }
 
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -42,5 +34,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Autowired
+    DaoAuthenticationProviderCustom daoAuthenticationProviderCustom;
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProviderCustom);
+    }
+
+    //配置安全拦截机制
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/r/**").authenticated()//访问/r开始的请求需要认证通过
+                .anyRequest().permitAll()//其它请求全部放行
+                .and()
+                .formLogin().successForwardUrl("/login-success");//登录成功跳转到/login-success
     }
 }

@@ -1,0 +1,27 @@
+###
+POST {{checkcode_host}}/checkcode/pic
+
+
+### 校验验证码
+POST {{checkcode_host}}/checkcode/verify?key=681951e8464047b9bbfb21e945dbef00
+
+###
+POST {{gateway_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","authType":"password","password":"111111"}
+
+
+###
+POST {{gateway_host}}/content/course/list?pageNo=1&pageSize=10
+Content-Type: application/json
+
+{
+  "auditStatus": "",
+  "courseName": "",
+  "publishStatus": ""
+}
+
+### 通过网关访问资源服务
+GET {{gateway_host}}/content/course/2
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicHN5Y2hpYy1vbmxpbmUiXSwidXNlcl9uYW1lIjoie1wiYmlydGhkYXlcIjpcIjIwMjItMDktMjhUMTk6Mjg6NDZcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MFwiLFwibmFtZVwiOlwi5a2m55SfMVwiLFwibmlja25hbWVcIjpcIuWkp-awtOeJm1wiLFwicGVybWlzc2lvbnNcIjpbXSxcInNleFwiOlwiMVwiLFwic3RhdHVzXCI6XCIxXCIsXCJ1c2VybmFtZVwiOlwic3R1MVwiLFwidXNlcnBpY1wiOlwiaHR0cDovL2ZpbGUuNTF4dWVjaGVuZy5jbi9kZGRmXCIsXCJ1dHlwZVwiOlwiMTAxMDAxXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTc2NDM0NTQ2OSwiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiOTRmODVhYmItY2IyNC00MWE3LWIwMGEtOWFmNjUzYzYyYTE3IiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.Uww3eysq1MIGLFth51rakEmu58AwqOpKw4zXMawKJFg
+
+###校验jwt令牌
+POST {{gateway_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicHN5Y2hpYy1vbmxpbmUiXSwidXNlcl9uYW1lIjoie1wiYmlydGhkYXlcIjpcIjIwMjItMDktMjhUMTk6Mjg6NDZcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MFwiLFwibmFtZVwiOlwi5a2m55SfMVwiLFwibmlja25hbWVcIjpcIuWkp-awtOeJm1wiLFwicGVybWlzc2lvbnNcIjpbXSxcInNleFwiOlwiMVwiLFwic3RhdHVzXCI6XCIxXCIsXCJ1c2VybmFtZVwiOlwic3R1MVwiLFwidXNlcnBpY1wiOlwiaHR0cDovL2ZpbGUuNTF4dWVjaGVuZy5jbi9kZGRmXCIsXCJ1dHlwZVwiOlwiMTAxMDAxXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTc2NDM0NTc2MywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiMTk0MDdjZjgtMWY4Zi00YmFiLTllMzAtYjEzMTQ0ZmRhMjQxIiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.NU0ZUVElHXm6v219wWlU4j19mD8hojlTYiafzKkY3lw

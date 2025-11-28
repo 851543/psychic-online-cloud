@@ -2,6 +2,7 @@ package com.psychic.base.execption;
 
 import com.psychic.base.enums.CommonError;
 import com.psychic.base.model.ErrorResult;
+import com.psychic.base.model.RestErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,9 +32,12 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResult exception(Exception e) {
+    public RestErrorResponse exception(Exception e) {
         log.error("【系统异常】{}",e.getMessage(),e);
-        return new ErrorResult(CommonError.UNKOWN_ERROR.getErrMessage());
-
+        e.printStackTrace();
+        if(e.getMessage().equals("不允许访问")){
+            return new RestErrorResponse("没有操作此功能的权限");
+        }
+        return new RestErrorResponse(CommonError.UNKOWN_ERROR.getErrMessage());
     }
 }
