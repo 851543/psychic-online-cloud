@@ -60,7 +60,7 @@
             <p>
                 <a href="http://localhost:88/course/preview/learning.html?id=${model.courseBase.id}" target="_blank">
                     <#if model.courseBase.pic??>
-                        <img src="http://file.51xuecheng.cn${model.courseBase.pic}" alt="" width="270" height="156">
+                        <img src="http://localhost:88${model.courseBase.pic}" alt="" width="270" height="156">
                     <#else>
                         <img src="/static/img/widget-video.png" alt="" width="270" height="156">
                     </#if>

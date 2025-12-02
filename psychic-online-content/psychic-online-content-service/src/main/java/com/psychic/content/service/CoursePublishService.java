@@ -2,6 +2,7 @@ package com.psychic.content.service;
 
 
 import com.psychic.content.model.dto.CoursePreviewDto;
+import com.psychic.content.model.po.CoursePublish;
 
 import java.io.File;
 
@@ -58,4 +59,11 @@ public interface CoursePublishService {
      * @date 2022/9/23 16:59
      */
     public void  uploadCourseHtml(Long courseId,File file);
+
+    /**
+     * 根据课程 id查询课程发布信息
+     * @param courseId
+     * @return
+     */
+    public CoursePublish getCoursePublish(Long courseId);
 }
