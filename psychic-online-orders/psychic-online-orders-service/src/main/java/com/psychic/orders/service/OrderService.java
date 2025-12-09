@@ -1,5 +1,6 @@
 package com.psychic.orders.service;
 
+import com.psychic.messagesdk.model.po.MqMessage;
 import com.psychic.orders.model.dto.AddOrderDto;
 import com.psychic.orders.model.dto.PayRecordDto;
 import com.psychic.orders.model.dto.PayStatusDto;
@@ -40,5 +41,11 @@ public interface OrderService {
      * @author Mr.M
      * @date 2022/10/4 16:52
      */
-    public void saveAliPayStatus(PayStatusDto payStatusDto) ;
+    public void saveAliPayStatus(PayStatusDto payStatusDto);
+
+    /**
+     * 发送通知结果
+     * @param message
+     */
+    public void notifyPayResult(MqMessage message);
 }

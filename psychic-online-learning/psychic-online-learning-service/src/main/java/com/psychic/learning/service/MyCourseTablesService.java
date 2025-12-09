@@ -1,7 +1,10 @@
 package com.psychic.learning.service;
 
+import com.psychic.base.model.PageResult;
+import com.psychic.learning.model.dto.MyCourseTableParams;
 import com.psychic.learning.model.dto.XcChooseCourseDto;
 import com.psychic.learning.model.dto.XcCourseTablesDto;
+import com.psychic.learning.model.po.XcCourseTables;
 
 /**
  * @description 我的课程表service接口
@@ -31,4 +34,19 @@ public interface MyCourseTablesService {
      */
     public XcCourseTablesDto getLearningStatus(String userId, Long courseId);
 
+    /**
+     * 保存选课成功状态
+     * @param chooseCourseId
+     * @return
+     */
+    public boolean saveChooseCourseSuccess(String chooseCourseId);
+
+    /**
+     * @description 我的课程表
+     * @param params
+     * @return com.xuecheng.base.model.PageResult<com.xuecheng.learning.model.po.XcCourseTables>
+     * @author Mr.M
+     * @date 2022/10/27 9:24
+     */
+    public PageResult<XcCourseTables> mycourestabls(MyCourseTableParams params);
 }

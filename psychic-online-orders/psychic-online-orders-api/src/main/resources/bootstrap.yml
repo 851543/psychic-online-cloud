@@ -20,6 +20,9 @@ spring:
           - data-id: logging-${spring.profiles.active}.yaml
             group: psychic-online-common
             refresh: true
+          - data-id: rabbitmq-${spring.profiles.active}.yaml
+            group: psychic-online-common
+            refresh: true
 
   profiles:
     active: dev

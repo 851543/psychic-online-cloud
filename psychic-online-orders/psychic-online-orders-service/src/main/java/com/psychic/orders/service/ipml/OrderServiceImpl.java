@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.psychic.base.execption.ServiceException;
 import com.psychic.base.utils.IdWorkerUtils;
 import com.psychic.base.utils.QRCodeUtil;
+import com.psychic.messagesdk.model.po.MqMessage;
+import com.psychic.messagesdk.service.MqMessageService;
+import com.psychic.orders.config.PayNotifyConfig;
 import com.psychic.orders.mapper.XcOrdersGoodsMapper;
 import com.psychic.orders.mapper.XcOrdersMapper;
 import com.psychic.orders.mapper.XcPayRecordMapper;
@@ -16,6 +19,11 @@ import com.psychic.orders.model.po.XcOrdersGoods;
 import com.psychic.orders.model.po.XcPayRecord;
 import com.psychic.orders.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,6 +51,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderService currentProxy;
+
+    @Autowired
+    MqMessageService mqMessageService;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Transactional
     @Override
@@ -172,7 +187,40 @@ public class OrderServiceImpl implements OrderService {
                 log.info("更新订单表状态失败,订单号:{}", orderId);
                 throw new ServiceException("更新订单表状态失败");
             }
+            //保存消息记录,参数1：支付结果通知类型，2: 业务id，3:业务类型
+            MqMessage mqMessage = mqMessageService.addMessage("payresult_notify", orders.getOutBusinessId(), orders.getOrderType(), null);
+            //通知消息
+            notifyPayResult(mqMessage);
         }
+    }
+
+    @Override
+    public void notifyPayResult(MqMessage message) {
+        //1、消息体，转json
+        String msg = JSON.toJSONString(message);
+        //设置消息持久化
+        Message msgObj = MessageBuilder.withBody(msg.getBytes(StandardCharsets.UTF_8))
+                .setDeliveryMode(MessageDeliveryMode.PERSISTENT)
+                .build();
+        // 2.全局唯一的消息ID，需要封装到CorrelationData中
+        CorrelationData correlationData = new CorrelationData(message.getId().toString());
+        // 3.添加callback
+        correlationData.getFuture().addCallback(
+                result -> {
+                    if(result.isAck()){
+                        // 3.1.ack，消息成功
+                        log.debug("通知支付结果消息发送成功, ID:{}", correlationData.getId());
+                        //删除消息表中的记录
+                        mqMessageService.completed(message.getId());
+                    }else{
+                        // 3.2.nack，消息失败
+                        log.error("通知支付结果消息发送失败, ID:{}, 原因{}",correlationData.getId(), result.getReason());
+                    }
+                },
+                ex -> log.error("消息发送异常, ID:{}, 原因{}",correlationData.getId(),ex.getMessage())
+        );
+        // 发送消息
+        rabbitTemplate.convertAndSend(PayNotifyConfig.PAYNOTIFY_EXCHANGE_FANOUT, "", msgObj,correlationData);
 
     }
 

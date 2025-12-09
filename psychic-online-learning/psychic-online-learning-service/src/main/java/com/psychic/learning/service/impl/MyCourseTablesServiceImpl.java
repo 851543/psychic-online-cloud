@@ -1,18 +1,20 @@
-package com.psychic.learning.service.ipml;
+package com.psychic.learning.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.psychic.base.execption.ServiceException;
+import com.psychic.base.model.PageResult;
 import com.psychic.content.model.po.CoursePublish;
 import com.psychic.learning.feignclient.ContentServiceClient;
 import com.psychic.learning.mapper.XcChooseCourseMapper;
 import com.psychic.learning.mapper.XcCourseTablesMapper;
+import com.psychic.learning.model.dto.MyCourseTableParams;
 import com.psychic.learning.model.dto.XcChooseCourseDto;
 import com.psychic.learning.model.dto.XcCourseTablesDto;
 import com.psychic.learning.model.po.XcChooseCourse;
 import com.psychic.learning.model.po.XcCourseTables;
 import com.psychic.learning.service.MyCourseTablesService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.statement.StatementUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,6 @@ public class MyCourseTablesServiceImpl implements MyCourseTablesService {
 
     @Autowired
     MyCourseTablesServiceImpl currentProxy;
-
     @Transactional
     @Override
     public XcChooseCourseDto addChooseCourse(String userId, Long courseId) {
@@ -106,6 +107,56 @@ public class MyCourseTablesServiceImpl implements MyCourseTablesService {
 
     }
 
+    @Override
+    public boolean saveChooseCourseSuccess(String chooseCourseId) {
+
+        //根据选课id查询选课表
+        XcChooseCourse chooseCourse = xcChooseCourseMapper.selectById(chooseCourseId);
+        if(chooseCourse == null){
+            log.debug("接收购买课程的消息，根据选课id从数据库找不到选课记录,选课id:{}",chooseCourseId);
+            return false;
+        }
+        //选课状态
+        String status = chooseCourse.getStatus();
+        //只有当未支付时才更新为已支付
+        if("701002".equals(status)){
+            //更新选课记录的状态为支付成功
+            chooseCourse.setStatus("701001");
+            int i = xcChooseCourseMapper.updateById(chooseCourse);
+            if(i<=0){
+                log.debug("添加选课记录失败:{}",chooseCourse);
+                throw new ServiceException("添加选课记录失败");
+            }
+
+            //向我的课程表插入记录
+            XcCourseTables xcCourseTables = addCourseTabls(chooseCourse);
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public PageResult<XcCourseTables> mycourestabls(MyCourseTableParams params){
+        //页码
+        long pageNo = params.getPage();
+        //每页记录数,固定为4
+        long pageSize = 4;
+        //分页条件
+        Page<XcCourseTables> page = new Page<>(pageNo, pageSize);
+        //根据用户id查询
+        String userId = params.getUserId();
+        LambdaQueryWrapper<XcCourseTables> lambdaQueryWrapper = new LambdaQueryWrapper<XcCourseTables>().eq(XcCourseTables::getUserId, userId);
+
+        //分页查询
+        Page<XcCourseTables> pageResult = xcCourseTablesMapper.selectPage(page, lambdaQueryWrapper);
+        List<XcCourseTables> records = pageResult.getRecords();
+        //记录总数
+        long total = pageResult.getTotal();
+        PageResult<XcCourseTables> courseTablesResult = new PageResult<>(records, total, pageNo, pageSize);
+        return courseTablesResult;
+
+    }
 
     //添加免费课程,免费课程加入选课记录表、我的课程表
     public XcChooseCourse addFreeCoruse(String userId, CoursePublish coursepublish) {
