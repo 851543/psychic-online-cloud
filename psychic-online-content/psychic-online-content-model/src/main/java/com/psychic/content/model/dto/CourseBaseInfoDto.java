@@ -1,10 +1,7 @@
 package com.psychic.content.model.dto;
 
 import com.psychic.content.model.po.CourseBase;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.math.BigDecimal;
 
 /**
  * @author 851543

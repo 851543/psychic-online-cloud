@@ -1,4 +1,4 @@
-package com.psychic.content.config;
+package com.psychic.teaching.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -40,4 +40,13 @@ public class GlobalExceptionHandler {
         }
         return new RestErrorResponse(CommonError.UNKOWN_ERROR.getErrMessage());
     }
+
+    @ResponseBody
+    @ExceptionHandler(LoginException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResult LoginException(LoginException e) {
+        log.error("【登陆异常】{}",e.getMessage(),e);
+        return new ErrorResult(e.getMessage());
+
+    }
 }

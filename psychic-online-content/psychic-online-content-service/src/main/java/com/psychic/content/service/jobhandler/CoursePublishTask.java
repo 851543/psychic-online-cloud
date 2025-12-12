@@ -1,8 +1,8 @@
 package com.psychic.content.service.jobhandler;
 
 import com.psychic.base.execption.ServiceException;
-import com.psychic.content.feignclient.SearchServiceClient;
 import com.psychic.content.mapper.CoursePublishMapper;
+import com.psychic.content.feignclient.SearchServiceClient;
 import com.psychic.content.model.po.CourseIndex;
 import com.psychic.content.model.po.CoursePublish;
 import com.psychic.content.service.CoursePublishService;

@@ -1,13 +1,14 @@
 package com.psychic.ucenter.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.psychic.ucenter.mapper.XcMenuMapper;
 import com.psychic.ucenter.mapper.XcUserMapper;
 import com.psychic.ucenter.model.dto.AuthParamsDto;
 import com.psychic.ucenter.model.dto.XcUserExt;
 import com.psychic.ucenter.model.po.XcMenu;
+import com.psychic.ucenter.model.po.XcUser;
 import com.psychic.ucenter.service.AuthService;
+import com.psychic.ucenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     XcUserMapper xcUserMapper;
@@ -98,5 +99,10 @@ public class UserServiceImpl implements UserDetailsService {
         String[] authorities = permissions.toArray(new String[0]);
         UserDetails userDetails = User.withUsername(userString).password(password).authorities(authorities).build();
         return userDetails;
+    }
+
+    @Override
+    public List<XcUser> getCompanyIdUserList(String companyId) {
+        return xcUserMapper.selectUserByCompanyId(companyId);
     }
 }

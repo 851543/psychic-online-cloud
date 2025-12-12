@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 
 /**
  * @author 851543

@@ -1,16 +1,22 @@
 package com.psychic.learning.service.impl;
 
 import com.psychic.base.execption.ServiceException;
+import com.psychic.base.model.PageParams;
+import com.psychic.base.model.PageResult;
 import com.psychic.base.model.RestResponse;
 import com.psychic.content.model.po.CoursePublish;
+import com.psychic.learning.feignclient.AuthServiceClient;
 import com.psychic.learning.feignclient.ContentServiceClient;
 import com.psychic.learning.feignclient.MediaServiceClient;
+import com.psychic.learning.model.XcUser;
 import com.psychic.learning.model.dto.XcCourseTablesDto;
 import com.psychic.learning.service.LearningService;
 import com.psychic.learning.service.MyCourseTablesService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LearningServiceImpl implements LearningService {
@@ -23,6 +29,9 @@ public class LearningServiceImpl implements LearningService {
 
     @Autowired
     MediaServiceClient mediaServiceClient;
+
+    @Autowired
+    AuthServiceClient authServiceClient;
 
     @Override
     public RestResponse<String> getVideo(String userId, Long courseId, Long teachplanId, String mediaId) {
@@ -56,5 +65,11 @@ public class LearningServiceImpl implements LearningService {
         return RestResponse.validfail("请购买课程后继续学习");
 
 
+    }
+
+    @Override
+    public PageResult<XcUser> getCompanyList(String companyId, PageParams pageParams) {
+        List<XcUser> userList = authServiceClient.getUserList(companyId);
+        return new PageResult<XcUser>(userList,userList.size(),pageParams.getPageNo(),pageParams.getPageSize());
     }
 }

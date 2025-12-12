@@ -1,8 +1,6 @@
-package com.psychic.content.util;
+package com.psychic.teaching.util;
 
 import com.alibaba.fastjson.JSON;
-import com.psychic.base.execption.LoginException;
-import com.psychic.base.execption.ServiceException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +29,7 @@ public class SecurityUtil {
             }
         } catch (Exception e) {
             log.error("获取当前登录用户身份出错:{}", e.getMessage());
-            throw new LoginException("登陆令牌失效");
+            e.printStackTrace();
         }
 
         return null;

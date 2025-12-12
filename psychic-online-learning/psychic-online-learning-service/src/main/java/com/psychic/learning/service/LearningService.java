@@ -1,6 +1,9 @@
 package com.psychic.learning.service;
 
+import com.psychic.base.model.PageParams;
+import com.psychic.base.model.PageResult;
 import com.psychic.base.model.RestResponse;
+import com.psychic.learning.model.XcUser;
 
 /**
  * @description 学习过程管理service接口
@@ -20,4 +23,6 @@ public interface LearningService {
      * @date 2022/10/5 9:08
      */
     public RestResponse<String> getVideo(String userId, Long courseId, Long teachplanId, String mediaId);
+
+    public PageResult<XcUser> getCompanyList(String companyId, PageParams pageParams);
 }
