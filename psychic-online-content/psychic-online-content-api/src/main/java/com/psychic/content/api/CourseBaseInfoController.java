@@ -9,6 +9,7 @@ import com.psychic.content.model.dto.QueryCourseParamsDto;
 import com.psychic.content.model.po.CourseBase;
 import com.psychic.content.service.CourseBaseInfoService;
 import com.psychic.content.util.SecurityUtil;
+import com.psychic.messagesdk.service.MqMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class CourseBaseInfoController {
 
     @Autowired
     private CourseBaseInfoService courseBaseInfoService;
+
+    @Autowired
+    MqMessageService mqMessageService;
 
     @ApiOperation("课程查询接口")
     @PostMapping("/course/list")

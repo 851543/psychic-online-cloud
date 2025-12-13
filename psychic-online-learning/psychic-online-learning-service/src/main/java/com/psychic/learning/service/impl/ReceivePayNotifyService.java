@@ -25,9 +25,6 @@ import org.springframework.stereotype.Service;
 public class ReceivePayNotifyService {
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
     MqMessageService mqMessageService;
 
     @Autowired

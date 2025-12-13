@@ -31,6 +31,8 @@ public interface CheckCodeService {
      */
     public boolean verify(String key, String code);
 
+    public void doEmail(String param1);
+
 
     /**
      * @description 验证码生成器

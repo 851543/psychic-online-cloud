@@ -3,11 +3,14 @@ package com.psychic.checkcode.controller;
 import com.psychic.checkcode.model.CheckCodeParamsDto;
 import com.psychic.checkcode.model.CheckCodeResultDto;
 import com.psychic.checkcode.service.CheckCodeService;
+import com.psychic.messagesdk.service.MqMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -41,5 +44,10 @@ public class CheckCodeController {
     public Boolean verify(String key, String code){
         Boolean isSuccess = picCheckCodeService.verify(key,code);
         return isSuccess;
+    }
+
+    @PostMapping("/email")
+    public void doEmail(String param1){
+        picCheckCodeService.doEmail(param1);
     }
 }
