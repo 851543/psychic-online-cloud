@@ -25,4 +25,6 @@ public interface LearningService {
     public RestResponse<String> getVideo(String userId, Long courseId, Long teachplanId, String mediaId);
 
     public PageResult<XcUser> getCompanyList(String companyId, PageParams pageParams);
+
+    void bindCompany(String companyId, String email);
 }

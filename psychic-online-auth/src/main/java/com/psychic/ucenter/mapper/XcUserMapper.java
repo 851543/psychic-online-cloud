@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface XcUserMapper extends BaseMapper<XcUser> {
 
-    @Select("select * from xc_user where id in (select user_id from xc_company_user where company_id = #{companyId})")
+    @Select("select * from xc_user where company_id = #{companyId}")
     List<XcUser> selectUserByCompanyId(String companyId);
 }

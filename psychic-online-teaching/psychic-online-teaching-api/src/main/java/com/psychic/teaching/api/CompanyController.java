@@ -4,8 +4,7 @@ import com.psychic.teaching.model.XcCompany;
 import com.psychic.teaching.service.CompanyService;
 import com.psychic.teaching.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CompanyController {
@@ -17,5 +16,10 @@ public class CompanyController {
     public XcCompany getMyCompany(){
         SecurityUtil.XcUser user = SecurityUtil.getUser();
         return companyService.getMyCompany(user.getCompanyId());
+    }
+
+    @PutMapping("/company")
+    public void editCompany(@RequestBody XcCompany xcCompany){
+        companyService.editCompany(xcCompany);
     }
 }

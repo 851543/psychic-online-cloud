@@ -35,6 +35,12 @@ public class MyLearningController {
         return learningService.getCompanyList(user.getCompanyId(),pageParams);
     }
 
+    @GetMapping("/xc-member/get-by-email")
+    public void bindCompany(String email){
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        learningService.bindCompany(user.getCompanyId(), email);
+    }
+
     @ApiOperation("获取视频")
     @GetMapping("/open/learn/getvideo/{courseId}/{teachplanId}/{mediaId}")
     public RestResponse<String> getvideo(@PathVariable("courseId") Long courseId, @PathVariable("courseId") Long teachplanId, @PathVariable("mediaId") String mediaId) {

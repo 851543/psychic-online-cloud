@@ -4,12 +4,10 @@ import com.psychic.ucenter.model.po.XcCompany;
 import com.psychic.ucenter.model.po.XcUser;
 import com.psychic.ucenter.service.CompanyService;
 import com.psychic.ucenter.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -29,5 +27,15 @@ public class CompanyController {
     @GetMapping("/company/{companyId}")
     public XcCompany getInfo(@PathVariable String companyId){
         return companyService.getInfo(companyId);
+    }
+
+    @PutMapping("/company")
+    public void editCompany(@RequestBody XcCompany xcCompany){
+        companyService.editCompany(xcCompany);
+    }
+
+    @GetMapping("/xc-member/get-by-email/{companyId}/{email}")
+    public String bindCompany(@PathVariable String companyId,@PathVariable String email){
+        return companyService.bindCompany(companyId,email);
     }
 }

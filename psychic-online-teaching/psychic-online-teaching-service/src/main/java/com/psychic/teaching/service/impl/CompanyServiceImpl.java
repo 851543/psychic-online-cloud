@@ -16,4 +16,9 @@ public class CompanyServiceImpl implements CompanyService {
     public XcCompany getMyCompany(String companyId) {
         return authServiceClient.getInfo(companyId);
     }
+
+    @Override
+    public void editCompany(XcCompany xcCompany) {
+        authServiceClient.editCompany(xcCompany);
+    }
 }

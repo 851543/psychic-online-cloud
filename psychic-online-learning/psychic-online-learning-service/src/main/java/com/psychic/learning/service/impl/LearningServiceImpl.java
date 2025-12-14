@@ -72,4 +72,12 @@ public class LearningServiceImpl implements LearningService {
         List<XcUser> userList = authServiceClient.getUserList(companyId);
         return new PageResult<XcUser>(userList,userList.size(),pageParams.getPageNo(),pageParams.getPageSize());
     }
+
+    @Override
+    public void bindCompany(String companyId,String email) {
+        String s = authServiceClient.bindCompany(companyId, email);
+        if (!s.equals("ok")){
+            throw new ServiceException(s);
+        }
+    }
 }
