@@ -1,12 +1,12 @@
 package com.psychic.auth.controller;
 
 import com.psychic.ucenter.mapper.XcUserMapper;
+import com.psychic.ucenter.model.dto.RegisterDTO;
 import com.psychic.ucenter.model.po.XcUser;
+import com.psychic.ucenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Mr.M
@@ -20,6 +20,9 @@ public class LoginController {
 
     @Autowired
     XcUserMapper userMapper;
+
+    @Autowired
+    UserService userService;
 
 
     @RequestMapping("/login-success")
@@ -45,6 +48,13 @@ public class LoginController {
         return "访问r2资源";
     }
 
+    @PostMapping("/register")
+    public void register(@RequestBody RegisterDTO registerDTO){
+        userService.register(registerDTO);
+    }
 
-
+    @PostMapping("/findpassword")
+    public void findpassword(@RequestBody RegisterDTO registerDTO){
+        userService.findpassword(registerDTO);
+    }
 }

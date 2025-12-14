@@ -1,5 +1,7 @@
 package com.psychic.ucenter.model.po;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -53,6 +55,7 @@ public class XcUser implements Serializable {
      */
     private String status;
 
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

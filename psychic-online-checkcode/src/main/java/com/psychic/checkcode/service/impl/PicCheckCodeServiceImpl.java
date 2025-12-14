@@ -2,6 +2,8 @@ package com.psychic.checkcode.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.psychic.base.execption.ServiceException;
+import com.psychic.base.utils.EmailUtil;
 import com.psychic.base.utils.EncryptUtil;
 import com.psychic.checkcode.config.EmailNotifyConfig;
 import com.psychic.checkcode.model.CheckCodeParamsDto;
@@ -51,12 +53,6 @@ public class PicCheckCodeServiceImpl extends AbstractCheckCodeService implements
     RedisCache redisCache;
 
     @Autowired
-    JavaMailSender mailSender;
-
-    @Value("${spring.mail.username}")
-    String mailUserName;
-
-    @Autowired
     RabbitTemplate rabbitTemplate;
 
     @Autowired
@@ -97,6 +93,10 @@ public class PicCheckCodeServiceImpl extends AbstractCheckCodeService implements
 
     @Override
     public void doEmail(String key) {
+        EmailUtil.EmailValidationResult validate = EmailUtil.validate(key);
+        if (!validate.isValid()){
+            throw new ServiceException(validate.getErrorMessage());
+        }
         String verifyCode = redisCache.getCacheObject(key);
         if (StringUtils.isNotEmpty(verifyCode)) {
             redisCache.deleteObject(key);

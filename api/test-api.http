@@ -33,3 +33,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicHN5Y2hpY
 
 ###
 POST {{checkcode_host}}/checkcode/pic
+
+
+###
+GET  {{gateway_host}}/auth/company/user/1
+
+###
+POST {{gateway_host}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "t1",
+    "email": "851543@qq.com"
+}
+###
+POST {{gateway_host}}/auth/test
+Content-Type: application/json
+
