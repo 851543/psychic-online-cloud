@@ -3,6 +3,7 @@ package com.psychic.media.api;
 import com.psychic.base.model.RestResponse;
 import com.psychic.media.model.dto.UploadFileParamsDto;
 import com.psychic.media.service.MediaFileService;
+import com.psychic.media.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class BigFilesController {
     public RestResponse<Boolean> checkfile(
             @RequestParam("fileMd5") String fileMd5
     ) throws Exception {
-        return mediaFileService.checkFile(fileMd5);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        String companyId = user.getCompanyId();
+        return mediaFileService.checkFile(companyId,fileMd5);
     }
 
 
@@ -61,7 +64,9 @@ public class BigFilesController {
     public RestResponse mergechunks(@RequestParam("fileMd5") String fileMd5,
                                     @RequestParam("fileName") String fileName,
                                     @RequestParam("chunkTotal") int chunkTotal) throws Exception {
-        Long companyId = 1232141425L;
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        //机构id
+        String companyId = user.getCompanyId();
 
         UploadFileParamsDto uploadFileParamsDto = new UploadFileParamsDto();
         uploadFileParamsDto.setFileType("001002");
@@ -69,7 +74,7 @@ public class BigFilesController {
         uploadFileParamsDto.setRemark("");
         uploadFileParamsDto.setFilename(fileName);
 
-        return mediaFileService.mergechunks(companyId,fileMd5,chunkTotal,uploadFileParamsDto);
+        return mediaFileService.mergechunks(Long.valueOf(companyId),fileMd5,chunkTotal,uploadFileParamsDto);
 
     }
 

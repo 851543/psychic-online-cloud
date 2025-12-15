@@ -60,7 +60,7 @@ public interface MediaFileService {
      * @author Mr.M
      * @date 2022/9/13 15:38
      */
-    public RestResponse<Boolean> checkFile(String fileMd5);
+    public RestResponse<Boolean> checkFile(String companyId,String fileMd5);
 
     /**
      * @description 检查分块是否存在

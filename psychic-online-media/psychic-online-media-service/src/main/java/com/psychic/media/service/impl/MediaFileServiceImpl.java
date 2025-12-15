@@ -73,6 +73,10 @@ public class MediaFileServiceImpl implements MediaFileService {
 
   //构建查询条件对象
   LambdaQueryWrapper<MediaFiles> queryWrapper = new LambdaQueryWrapper<>();
+  queryWrapper.eq(MediaFiles::getCompanyId,companyId);
+  queryWrapper.like(StringUtils.isNotEmpty(queryMediaParamsDto.getFilename()),MediaFiles::getFilename,queryMediaParamsDto.getFilename());
+  queryWrapper.eq(StringUtils.isNotEmpty(queryMediaParamsDto.getFileType()), MediaFiles::getFileType, queryMediaParamsDto.getFileType());
+  queryWrapper.orderByDesc(MediaFiles::getCreateDate);
 
   //分页对象
   Page<MediaFiles> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
@@ -198,13 +202,16 @@ public class MediaFileServiceImpl implements MediaFileService {
  @Transactional
  public MediaFiles addMediaFilesToDb(Long companyId,String fileMd5,UploadFileParamsDto uploadFileParamsDto,String bucket,String objectName){
   //从数据库查询文件
-  MediaFiles mediaFiles = mediaFilesMapper.selectById(fileMd5);
+  MediaFiles mediaFiles = mediaFilesMapper.selectOne(new LambdaQueryWrapper<MediaFiles>()
+          .eq(MediaFiles::getCompanyId,companyId)
+          .eq(MediaFiles::getId,companyId+"-"+fileMd5)
+  );
   if (mediaFiles == null) {
    mediaFiles = new MediaFiles();
    //拷贝基本信息
    BeanUtils.copyProperties(uploadFileParamsDto, mediaFiles);
-   mediaFiles.setId(fileMd5);
-   mediaFiles.setFileId(fileMd5);
+   mediaFiles.setId(companyId+"-"+fileMd5);
+   mediaFiles.setFileId(companyId+"-"+fileMd5);
    mediaFiles.setCompanyId(companyId);
    mediaFiles.setUrl("/" + bucket + "/" + objectName);
    mediaFiles.setBucket(bucket);
@@ -249,9 +256,12 @@ public class MediaFileServiceImpl implements MediaFileService {
  }
 
  @Override
- public RestResponse<Boolean> checkFile(String fileMd5) {
+ public RestResponse<Boolean> checkFile(String companyId, String fileMd5) {
   //查询文件信息
-  MediaFiles mediaFiles = mediaFilesMapper.selectById(fileMd5);
+  MediaFiles mediaFiles = mediaFilesMapper.selectOne(new LambdaQueryWrapper<MediaFiles>()
+          .eq(MediaFiles::getCompanyId,companyId)
+          .eq(MediaFiles::getId,companyId+"-"+fileMd5)
+  );
   if (mediaFiles != null) {
    //桶
    String bucket = mediaFiles.getBucket();

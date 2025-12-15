@@ -6,6 +6,7 @@ import com.psychic.content.model.dto.CoursePreviewDto;
 import com.psychic.content.model.dto.TeachplanDto;
 import com.psychic.content.model.po.CoursePublish;
 import com.psychic.content.service.CoursePublishService;
+import com.psychic.content.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +42,20 @@ public class CoursePublishController {
     @ResponseBody
     @PostMapping("/courseaudit/commit/{courseId}")
     public void commitAudit(@PathVariable("courseId") Long courseId){
-        Long companyId = 1232141425L;
-        coursePublishService.commitAudit(companyId,courseId);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        //机构id
+        String companyId = user.getCompanyId();
+        coursePublishService.commitAudit(Long.valueOf(companyId),courseId);
     }
 
     @ApiOperation("课程发布")
     @ResponseBody
     @PostMapping ("/coursepublish/{courseId}")
     public void coursepublish(@PathVariable("courseId") Long courseId){
-        Long companyId = 1232141425L;
-        coursePublishService.publish(companyId,courseId);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        //机构id
+        String companyId = user.getCompanyId();
+        coursePublishService.publish(Long.valueOf(companyId),courseId);
 
     }
 

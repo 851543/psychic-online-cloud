@@ -7,6 +7,7 @@ import com.psychic.media.model.dto.UploadFileParamsDto;
 import com.psychic.media.model.dto.UploadFileResultDto;
 import com.psychic.media.model.po.MediaFiles;
 import com.psychic.media.service.MediaFileService;
+import com.psychic.media.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,10 @@ public class MediaFilesController {
  @ApiOperation("媒资列表查询接口")
  @PostMapping("/files")
  public PageResult<MediaFiles> list(PageParams pageParams, @RequestBody QueryMediaParamsDto queryMediaParamsDto){
-  Long companyId = 1232141425L;
-  return mediaFileService.queryMediaFiels(companyId,pageParams,queryMediaParamsDto);
+  SecurityUtil.XcUser user = SecurityUtil.getUser();
+        //机构id
+        String companyId = user.getCompanyId();
+  return mediaFileService.queryMediaFiels(Long.valueOf(companyId),pageParams,queryMediaParamsDto);
 
  }
 
@@ -44,7 +47,9 @@ public class MediaFilesController {
     @RequestMapping(value = "/upload/coursefile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     public UploadFileResultDto upload(@RequestPart("filedata") MultipartFile filedata,@RequestParam(value = "folder",required=false) String folder,@RequestParam(value = "objectName",required=false) String objectName) throws IOException {
-     Long companyId = 1232141425L;
+     SecurityUtil.XcUser user = SecurityUtil.getUser();
+        //机构id
+        String companyId = user.getCompanyId();
         UploadFileParamsDto uploadFileParamsDto = new UploadFileParamsDto();
         //文件大小
         uploadFileParamsDto.setFileSize(filedata.getSize());
@@ -62,7 +67,7 @@ public class MediaFilesController {
         //文件路径
         String absolutePath = tempFile.getAbsolutePath();
         //上传文件
-        UploadFileResultDto uploadFileResultDto = mediaFileService.uploadFile(companyId, uploadFileParamsDto, absolutePath,objectName);
+        UploadFileResultDto uploadFileResultDto = mediaFileService.uploadFile(Long.valueOf(companyId), uploadFileParamsDto, absolutePath,objectName);
 
         return uploadFileResultDto;
     }
