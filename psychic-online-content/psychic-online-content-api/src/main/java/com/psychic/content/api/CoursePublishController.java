@@ -39,6 +39,10 @@ public class CoursePublishController {
         return modelAndView;
     }
 
+    /**
+     * 提交审核接口 丢弃第三方审核 默认通过
+     * @param courseId
+     */
     @ResponseBody
     @PostMapping("/courseaudit/commit/{courseId}")
     public void commitAudit(@PathVariable("courseId") Long courseId){

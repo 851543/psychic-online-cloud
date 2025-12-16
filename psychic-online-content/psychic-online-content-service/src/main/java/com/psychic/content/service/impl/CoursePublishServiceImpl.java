@@ -19,6 +19,7 @@ import com.psychic.content.model.po.CoursePublishPre;
 import com.psychic.content.service.CourseBaseInfoService;
 import com.psychic.content.service.CoursePublishService;
 import com.psychic.content.service.TeachplanService;
+import com.psychic.content.util.SecurityUtil;
 import com.psychic.messagesdk.model.po.MqMessage;
 import com.psychic.messagesdk.service.MqMessageService;
 import freemarker.template.Configuration;
@@ -132,8 +133,8 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         String teachplanTreeString = JSON.toJSONString(teachplanTree);
         coursePublishPre.setTeachplan(teachplanTreeString);
 
-        //设置预发布记录状态,已提交
-        coursePublishPre.setStatus("202003");
+        //设置预发布记录状态,已提交 默认通过审核
+        coursePublishPre.setStatus("202004");
         //教学机构id
         coursePublishPre.setCompanyId(companyId);
         //提交时间
@@ -146,9 +147,13 @@ public class CoursePublishServiceImpl implements CoursePublishService {
             coursePublishPreMapper.updateById(coursePublishPre);
         }
 
-        //更新课程基本表的审核状态
-        courseBase.setAuditStatus("202003");
+        //更新课程基本表的审核状态 默认通过审核
+        courseBase.setAuditStatus("202004");
         courseBaseMapper.updateById(courseBase);
+    }
+
+    public void publishReview(){
+
     }
 
     @Transactional
@@ -281,8 +286,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Override
     public void uploadCourseHtml(Long courseId, File file) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
         MultipartFile multipartFile = MultipartSupportConfig.getMultipartFile(file);
-        String course = mediaServiceClient.uploadFile(multipartFile, "course/"+courseId+".html");
+        String course = mediaServiceClient.uploadFile(multipartFile, "course/"+courseId+".html",courseBase.getCompanyId().toString());
         if(course==null){
             throw new ServiceException("上传静态文件异常");
         }

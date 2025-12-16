@@ -35,7 +35,6 @@ public class CourseBaseInfoController {
     @PostMapping("/course/list")
     public PageResult<CourseBase> list(PageParams pageParams, @RequestBody QueryCourseParamsDto queryCourseParams) {
         SecurityUtil.XcUser user = SecurityUtil.getUser();
-        //机构id
         String companyId = user.getCompanyId();
         return courseBaseInfoService.queryCourseBaseList(Long.parseLong(companyId),pageParams, queryCourseParams);
     }
@@ -43,7 +42,9 @@ public class CourseBaseInfoController {
     @ApiOperation("新增课程基础信息")
     @PostMapping("/course")
     public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto) {
-        return courseBaseInfoService.createCourseBase(1232141425L, addCourseDto);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        String companyId = user.getCompanyId();
+        return courseBaseInfoService.createCourseBase(Long.valueOf(companyId), addCourseDto);
     }
 
     @ApiOperation("根据课程id查询课程基础信息")
@@ -55,6 +56,8 @@ public class CourseBaseInfoController {
     @ApiOperation("修改课程基础信息")
     @PutMapping("/course")
     public CourseBaseInfoDto modifyCourseBase(@RequestBody EditCourseDto editCourseDto){
-        return courseBaseInfoService.updateCourseBase(1232141425L,editCourseDto);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        String companyId = user.getCompanyId();
+        return courseBaseInfoService.updateCourseBase(Long.valueOf(companyId),editCourseDto);
     }
 }

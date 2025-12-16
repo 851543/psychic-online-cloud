@@ -10,6 +10,7 @@ import com.psychic.media.service.MediaFileService;
 import com.psychic.media.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,7 @@ public class MediaFilesController {
  @PostMapping("/files")
  public PageResult<MediaFiles> list(PageParams pageParams, @RequestBody QueryMediaParamsDto queryMediaParamsDto){
   SecurityUtil.XcUser user = SecurityUtil.getUser();
-        //机构id
-        String companyId = user.getCompanyId();
+  String companyId = user.getCompanyId();
   return mediaFileService.queryMediaFiels(Long.valueOf(companyId),pageParams,queryMediaParamsDto);
 
  }
@@ -46,10 +46,12 @@ public class MediaFilesController {
     @ApiOperation("上传文件")
     @RequestMapping(value = "/upload/coursefile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public UploadFileResultDto upload(@RequestPart("filedata") MultipartFile filedata,@RequestParam(value = "folder",required=false) String folder,@RequestParam(value = "objectName",required=false) String objectName) throws IOException {
-     SecurityUtil.XcUser user = SecurityUtil.getUser();
-        //机构id
-        String companyId = user.getCompanyId();
+    public UploadFileResultDto upload(@RequestPart("filedata") MultipartFile filedata,@RequestParam(value = "folder",required=false) String folder,@RequestParam(value = "objectName",required=false) String objectName,@RequestParam(value = "companyId",required=false) String companyId) throws IOException {
+        if (StringUtils.isEmpty(companyId)){
+            SecurityUtil.XcUser user = SecurityUtil.getUser();
+            companyId = user.getCompanyId();
+        }
+
         UploadFileParamsDto uploadFileParamsDto = new UploadFileParamsDto();
         //文件大小
         uploadFileParamsDto.setFileSize(filedata.getSize());

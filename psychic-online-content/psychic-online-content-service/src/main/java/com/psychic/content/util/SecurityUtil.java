@@ -31,7 +31,7 @@ public class SecurityUtil {
             }
         } catch (Exception e) {
             log.error("获取当前登录用户身份出错:{}", e.getMessage());
-            throw new LoginException("登陆已过期，请重新登陆。");
+            e.printStackTrace();
         }
 
         return null;
