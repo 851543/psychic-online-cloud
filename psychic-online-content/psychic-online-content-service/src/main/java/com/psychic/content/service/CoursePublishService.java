@@ -66,4 +66,6 @@ public interface CoursePublishService {
      * @return
      */
     public CoursePublish getCoursePublish(Long courseId);
+
+    void offline(Long courseId);
 }

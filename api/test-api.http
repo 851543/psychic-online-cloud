@@ -50,3 +50,5 @@ Content-Type: application/json
 POST {{gateway_host}}/auth/test
 Content-Type: application/json
 
+###
+GET {{gateway_host}}/content/courseoffline/138

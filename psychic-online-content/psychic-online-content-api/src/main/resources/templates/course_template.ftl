@@ -107,7 +107,7 @@
                             <div class="title"><span>课程制作</span></div>
                             <div class="cont">
                                 <#list model.courseTeachers as t>
-                                    <div class="img-box">
+                                    <div class="img-box" style="margin-bottom: 20px">
                                         <img src="${t.photograph!'/static/img/demo/pe.png'}" alt="${t.teacherName!}" height="96" width="96">
                                     </div>
                                     <div class="info-box">
@@ -191,7 +191,7 @@
                                 <div class="drop-down" style="height: 260px;">
                                     <ul class="list-box">
                                         <#list firstNode.teachPlanTreeNodes as secondNode>
-                                            <li><a href="http://localhost:88/course/preview/learning.html?id=${model.courseBase.id}&chapter=${secondNode.teachplanMedia.teachplanId!''}" target="_blank">${secondNode.pname}</a></li>
+                                            <li><a href="http://localhost:88/course/learning.html?id=${model.courseBase.id}&chapter=${secondNode.teachplanMedia.teachplanId!''}" target="_blank">${secondNode.pname}</a></li>
                                         </#list>
                                     </ul>
                                 </div>
@@ -648,7 +648,9 @@
                 </div>
             </div>
             <div class="fact-pic">实际支付: <span>￥${model.courseBase.price!''}元</span></div>
-            <div class="go-pay"><a href="#" @click.prevent="wxPay()">微信支付</a><a href="#" @click.prevent="aliPay()">支付宝支付</a><a href="#" @click.prevent="querypayresult()">支付完成</a><a href="#" @click.prevent="startLearngin()">试学</a></div>
+            <div class="go-pay">
+<#--                <a href="#" @click.prevent="wxPay()">微信支付</a>-->
+                <a href="#" @click.prevent="aliPay()">支付宝支付</a><a href="#" @click.prevent="querypayresult()">支付完成</a><a href="#" @click.prevent="startLearngin()">试学</a></div>
         </div>
         <!--支付弹窗- end -->
         <div class="popup-comment-box">

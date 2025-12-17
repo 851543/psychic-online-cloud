@@ -92,4 +92,10 @@ public class CoursePublishController {
         coursePreviewInfo.setTeachplans(teachplans);
         return coursePreviewInfo;
     }
+
+    @ResponseBody
+    @GetMapping("/courseoffline/{courseId}")
+    public void offline(@PathVariable("courseId") Long courseId) {
+        coursePublishService.offline(courseId);
+    }
 }

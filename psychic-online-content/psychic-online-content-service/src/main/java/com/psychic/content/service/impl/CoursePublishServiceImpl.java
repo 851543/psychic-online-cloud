@@ -1,6 +1,7 @@
 package com.psychic.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.psychic.base.enums.CommonError;
 import com.psychic.base.execption.ServiceException;
 import com.psychic.content.config.MultipartSupportConfig;
@@ -300,5 +301,14 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     public CoursePublish getCoursePublish(Long courseId){
         CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
         return coursePublish ;
+    }
+
+    @Transactional
+    @Override
+    public void offline(Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        courseBase.setAuditStatus("202002");
+        courseBase.setStatus("203004");
+        courseBaseMapper.updateById(courseBase);
     }
 }
