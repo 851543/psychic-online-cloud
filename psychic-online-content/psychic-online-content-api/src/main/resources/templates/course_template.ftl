@@ -106,39 +106,28 @@
                         <div class="content-com course">
                             <div class="title"><span>课程制作</span></div>
                             <div class="cont">
-                                <div class="img-box"><img src="/static/img/widget-myImg.jpg" alt=""></div>
-                                <div class="info-box">
-                                    <p class="name">教学方：<em>XX老师</em></p>
-                                    <!-- <p class="lab">高级前端开发工程师 10年开发经验</p>-->
-                                    <p class="info">JavaEE开发与教学多年，精通JavaEE技术体系，对流行框架JQuery、DWR、Struts1/2，Hibernate，Spring，MyBatis、JBPM、Lucene等有深入研究。授课逻辑严谨，条理清晰，注重学生独立解决问题的能力。</p>
-                                    <!-- <p><span>难度等级</span>中级</p>
-                                     <p><span>课程时长</span>8-16小时/周，共4周</p>
-                                     <p><span>如何通过</span>通过所有的作业及考核，作业共4份，考核为一次终极考核</p>
-                                     <p><span>用户评分</span>平均用户评分 <em>4.9</em> <a href="#">查看全部评价</a></p>
-                                     <p><span>课程价格</span>特惠价格<em>￥999</em> <i> 原价1999 </i></p>-->
-                                </div>
-                                <div class="img-box"><img src="/static/img/widget-myImg.jpg" alt=""></div>
-                                <div class="info-box">
-                                    <p class="name">教学方：<em>XX老师</em></p>
-                                    <!-- <p class="lab">高级前端开发工程师 10年开发经验</p>-->
-                                    <p class="info">JavaEE开发与教学多年，精通JavaEE技术体系，对流行框架JQuery、DWR、Struts1/2，Hibernate，Spring，MyBatis、JBPM、Lucene等有深入研究。授课逻辑严谨，条理清晰，注重学生独立解决问题的能力。</p>
-                                    <!-- <p><span>难度等级</span>中级</p>
-                                     <p><span>课程时长</span>8-16小时/周，共4周</p>
-                                     <p><span>如何通过</span>通过所有的作业及考核，作业共4份，考核为一次终极考核</p>
-                                     <p><span>用户评分</span>平均用户评分 <em>4.9</em> <a href="#">查看全部评价</a></p>
-                                     <p><span>课程价格</span>特惠价格<em>￥999</em> <i> 原价1999 </i></p>-->
-                                </div>
-                                <div class="img-box"><img src="/static/img/widget-myImg.jpg" alt=""></div>
-                                <div class="info-box">
-                                    <p class="name">教学方：<em>XX老师</em></p>
-                                    <!-- <p class="lab">高级前端开发工程师 10年开发经验</p>-->
-                                    <p class="info">JavaEE开发与教学多年，精通JavaEE技术体系，对流行框架JQuery、DWR、Struts1/2，Hibernate，Spring，MyBatis、JBPM、Lucene等有深入研究。授课逻辑严谨，条理清晰，注重学生独立解决问题的能力。</p>
-                                    <!-- <p><span>难度等级</span>中级</p>
-                                     <p><span>课程时长</span>8-16小时/周，共4周</p>
-                                     <p><span>如何通过</span>通过所有的作业及考核，作业共4份，考核为一次终极考核</p>
-                                     <p><span>用户评分</span>平均用户评分 <em>4.9</em> <a href="#">查看全部评价</a></p>
-                                     <p><span>课程价格</span>特惠价格<em>￥999</em> <i> 原价1999 </i></p>-->
-                                </div>
+                                <#list model.courseTeachers as t>
+                                    <div class="img-box">
+                                        <img src="${t.photograph!'/static/img/demo/pe.png'}" alt="${t.teacherName!}" height="96" width="96">
+                                    </div>
+                                    <div class="info-box">
+                                        <p class="name"><em>${t.teacherName!}</em></p>
+                                        <#-- 职位 -->
+                                        <#if t.position?? && t.position?has_content>
+                                            <p class="lab">${t.position}</p>
+                                        </#if>
+                                        <p class="info">
+                                            ${t.introduction!}
+                                        </p>
+                                        <#-- 下面这些注释内容按需要打开即可
+                                        <p><span>难度等级</span>中级</p>
+                                        <p><span>课程时长</span>8-16小时/周，共4周</p>
+                                        <p><span>如何通过</span>通过所有的作业及考核，作业共4份，考核为一次终极考核</p>
+                                        <p><span>用户评分</span>平均用户评分 <em>4.9</em> <a href="#">查看全部评价</a></p>
+                                        <p><span>课程价格</span>特惠价格<em>￥999</em> <i> 原价1999 </i></p>
+                                        -->
+                                    </div>
+                                </#list>
                             </div>
 
                         </div>
@@ -321,13 +310,20 @@
                 <div class="article-left-box">
                     <div class="content">
                         <div class="content-title">
-                            <p><a class="all">全部</a><a>精选</a><a>我的</a></p>
-                            <p><a class="all">全部</a><span><a>1.1</a><a>1.2</a><a>1.3</a><a>1.4</a><a>1.5</a></span><a href="$" class="more">更多 <i class="i-chevron-bot"></i></a></p>
+<#--                            <p><a class="all">全部</a><a>精选</a><a>我的</a></p>-->
+                            <p><a class="all">全部</a><span>
+                                    <#list model.teachplans as firstNode>
+                                    <#list firstNode.teachPlanTreeNodes as secondNode>
+                                        <a>${secondNode.pname}</a>
+                                    </#list>
+                                    </#list>
+                                </span>
+                                <a href="$" class="more">更多 <i class="i-chevron-bot"></i></a></p>
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p class="title">如何用微服务重构应用程序?</p>
@@ -337,8 +333,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p class="title">如何用微服务重构应用程序?</p>
@@ -349,8 +345,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p class="title">如何用微服务重构应用程序?</p>
@@ -361,8 +357,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p class="title">如何用微服务重构应用程序?</p>
@@ -373,8 +369,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p class="title">如何用微服务重构应用程序?</p>
@@ -385,8 +381,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p class="title">如何用微服务重构应用程序?</p>
@@ -411,13 +407,19 @@
                 <div class="article-left-box">
                     <div class="content">
                         <div class="content-title">
-                            <p><a class="all">全部</a><a>精选</a><a>我的</a></p>
-                            <p><a class="all">全部</a><span><a>1.1</a><a>1.2</a><a>1.3</a><a>1.4</a><a>1.5</a></span><a href="$" class="more">更多 <i class="i-chevron-bot"></i></a></p>
+<#--                            <p><a class="all">全部</a><a>精选</a><a>我的</a></p>-->
+                            <p><a class="all">全部</a><span>
+                                    <#list model.teachplans as firstNode>
+                                        <#list firstNode.teachPlanTreeNodes as secondNode>
+                                            <a>${secondNode.pname}</a>
+                                        </#list>
+                                    </#list>
+                                </span><a href="$" class="more">更多 <i class="i-chevron-bot"></i></a></p>
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <span class="video-time"><i class="i-play"></i>2`10`</span>
@@ -428,8 +430,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p>在讨论如何将重构转化为微服务之前，退后一步，<br>仔细观察微服务的内容和时间是很重要的。<br>以下两个要点将会对任何微服务重构策略产生重大影响。 </p>
@@ -439,8 +441,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p>在讨论如何将重构转化为微服务之前，退后一步，<br>仔细观察微服务的内容和时间是很重要的。<br>以下两个要点将会对任何微服务重构策略产生重大影响。 </p>
@@ -450,8 +452,8 @@
                         </div>
                         <div class="item">
                             <div class="item-left">
-                                <p><img src="/static/img/widget-myImg.jpg" width="60px" alt=""></p>
-                                <p>毛老师</p>
+                                <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                <p>彭彭老师</p>
                             </div>
                             <div class="item-right">
                                 <p>在讨论如何将重构转化为微服务之前，退后一步，<br>仔细观察微服务的内容和时间是很重要的。<br>以下两个要点将会对任何微服务重构策略产生重大影响。 </p>
@@ -538,8 +540,8 @@
                                 <div class="title">评论 <span>12453条评论</span></div>
                                 <div class="item">
                                     <div class="item-left">
-                                        <p><img src="/static/img/widget-pic.png" width="60px" alt=""></p>
-                                        <p>毛老师</p>
+                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                        <p>彭彭老师</p>
                                     </div>
                                     <div class="item-cent">
                                         <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
@@ -556,8 +558,8 @@
                                 </div>
                                 <div class="item">
                                     <div class="item-left">
-                                        <p><img src="/static/img/widget-pic.png" width="60px" alt=""></p>
-                                        <p>毛老师</p>
+                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                        <p>彭彭老师</p>
                                     </div>
                                     <div class="item-cent">
                                         <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
@@ -574,8 +576,8 @@
                                 </div>
                                 <div class="item">
                                     <div class="item-left">
-                                        <p><img src="/static/img/widget-pic.png" width="60px" alt=""></p>
-                                        <p>毛老师</p>
+                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                        <p>彭彭老师</p>
                                     </div>
                                     <div class="item-cent">
                                         <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
@@ -592,8 +594,8 @@
                                 </div>
                                 <div class="item">
                                     <div class="item-left">
-                                        <p><img src="/static/img/widget-pic.png" width="60px" alt=""></p>
-                                        <p>毛老师</p>
+                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
+                                        <p>彭彭老师</p>
                                     </div>
                                     <div class="item-cent">
                                         <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>

@@ -1,5 +1,6 @@
 package com.psychic.content.model.dto;
 
+import com.psychic.content.model.po.CourseTeacher;
 import lombok.Data;
 import lombok.ToString;
 
@@ -22,7 +23,7 @@ public class CoursePreviewDto {
     //课程计划信息
     List<TeachplanDto> teachplans;
 
-    //师资信息暂时不加...
-
+    //师资信息
+    List<CourseTeacher> courseTeachers;
 
 }

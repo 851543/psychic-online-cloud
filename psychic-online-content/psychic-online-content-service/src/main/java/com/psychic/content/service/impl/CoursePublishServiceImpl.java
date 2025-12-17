@@ -4,20 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.psychic.base.enums.CommonError;
 import com.psychic.base.execption.ServiceException;
 import com.psychic.content.config.MultipartSupportConfig;
-import com.psychic.content.mapper.CourseBaseMapper;
-import com.psychic.content.mapper.CourseMarketMapper;
-import com.psychic.content.mapper.CoursePublishMapper;
-import com.psychic.content.mapper.CoursePublishPreMapper;
+import com.psychic.content.mapper.*;
 import com.psychic.content.feignclient.MediaServiceClient;
 import com.psychic.content.model.dto.CourseBaseInfoDto;
 import com.psychic.content.model.dto.CoursePreviewDto;
 import com.psychic.content.model.dto.TeachplanDto;
-import com.psychic.content.model.po.CourseBase;
-import com.psychic.content.model.po.CourseMarket;
-import com.psychic.content.model.po.CoursePublish;
-import com.psychic.content.model.po.CoursePublishPre;
+import com.psychic.content.model.po.*;
 import com.psychic.content.service.CourseBaseInfoService;
 import com.psychic.content.service.CoursePublishService;
+import com.psychic.content.service.CourseTeacherService;
 import com.psychic.content.service.TeachplanService;
 import com.psychic.content.util.SecurityUtil;
 import com.psychic.messagesdk.model.po.MqMessage;
@@ -76,6 +71,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     @Autowired
     MediaServiceClient mediaServiceClient;
 
+    @Autowired
+    CourseTeacherService courseTeacherService;
+
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
 
@@ -85,9 +83,13 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         //课程计划信息
         List<TeachplanDto> teachplanTree= teachplanService.findTeachplanTree(courseId);
 
+        //师资
+        List<CourseTeacher> teacher = courseTeacherService.getTeacher(courseId);
+
         CoursePreviewDto coursePreviewDto = new CoursePreviewDto();
         coursePreviewDto.setCourseBase(courseBaseInfo);
         coursePreviewDto.setTeachplans(teachplanTree);
+        coursePreviewDto.setCourseTeachers(teacher);
         return coursePreviewDto;
     }
 

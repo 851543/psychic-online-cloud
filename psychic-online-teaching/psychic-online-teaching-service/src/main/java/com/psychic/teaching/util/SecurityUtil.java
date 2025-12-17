@@ -29,7 +29,7 @@ public class SecurityUtil {
             }
         } catch (Exception e) {
             log.error("获取当前登录用户身份出错:{}", e.getMessage());
-            e.printStackTrace();
+            throw new LoginException("认证令牌已过期");
         }
 
         return null;
