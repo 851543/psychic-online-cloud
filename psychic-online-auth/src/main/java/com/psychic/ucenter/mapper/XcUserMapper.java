@@ -17,4 +17,7 @@ public interface XcUserMapper extends BaseMapper<XcUser> {
 
     @Select("select * from xc_user where company_id = #{companyId}")
     List<XcUser> selectUserByCompanyId(String companyId);
+
+    @Select("select id from xc_user where company_id = #{companyId}")
+    String[] selectByCompanyId(String companyId);
 }

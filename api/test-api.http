@@ -52,3 +52,6 @@ Content-Type: application/json
 
 ###
 GET {{gateway_host}}/content/courseoffline/138
+
+###
+POST {{gateway_host}}/order/orders/org-list

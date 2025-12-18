@@ -75,5 +75,5 @@ public class XcOrders implements Serializable {
      */
     private String outBusinessId;
 
-
+    private String companyId;
 }

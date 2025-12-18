@@ -47,7 +47,8 @@ public class OrderController {
 
     @ApiOperation("扫码下单接口")
     @GetMapping("/requestpay")
-    public void requestpay(String payNo, HttpServletResponse httpResponse) throws IOException {
+    @ResponseBody
+    public String requestpay(String payNo, HttpServletResponse httpResponse) throws IOException {
         //如果payNo不存在则提示重新发起支付
         XcPayRecord payRecord = orderService.getPayRecordByPayno(payNo);
         if (payRecord == null) {
@@ -66,6 +67,7 @@ public class OrderController {
         payStatusDto.setOut_trade_no(payRecord.getPayNo().toString());
         payStatusDto.setTotal_amount(payRecord.getTotalPrice().toString());
         restTemplate.postForObject("http://localhost:63030/orders/receivenotify", payStatusDto, PayStatusDto.class);
+        return "支付成功";
     }
 
     @ApiOperation("查询支付结果")
@@ -79,6 +81,7 @@ public class OrderController {
 
     @ApiOperation("接收支付结果通知")
     @PostMapping("/receivenotify")
+    @ResponseBody
     public void receivenotify(@RequestBody PayStatusDto payStatusDto) {
         orderService.saveAliPayStatus(payStatusDto);
     }

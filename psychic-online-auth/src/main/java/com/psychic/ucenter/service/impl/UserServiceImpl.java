@@ -182,6 +182,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         xcUserMapper.updateById(userByMail);
     }
 
+    @Override
+    public String[] getUserIds(String companyId) {
+        return xcUserMapper.selectByCompanyId(companyId);
+    }
+
     /**
      * 校验注册DTO必填字段（简化版，不校验验证码key）
      * 校验失败时直接抛出 ServiceException

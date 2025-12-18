@@ -43,4 +43,6 @@ public class AddOrderDto  {
      */
     private String outBusinessId;
 
+    private String companyId;
+
 }

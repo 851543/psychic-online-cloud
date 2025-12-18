@@ -1,9 +1,13 @@
 package com.psychic.orders.service;
 
+import com.psychic.base.model.PageParams;
+import com.psychic.base.model.PageResult;
 import com.psychic.messagesdk.model.po.MqMessage;
 import com.psychic.orders.model.dto.AddOrderDto;
 import com.psychic.orders.model.dto.PayRecordDto;
 import com.psychic.orders.model.dto.PayStatusDto;
+import com.psychic.orders.model.dto.QueryOrderParamsDto;
+import com.psychic.orders.model.po.XcOrders;
 import com.psychic.orders.model.po.XcPayRecord;
 
 public interface OrderService {
@@ -48,4 +52,6 @@ public interface OrderService {
      * @param message
      */
     public void notifyPayResult(MqMessage message);
+
+    PageResult<XcOrders> page(String companyId, PageParams pageParams, QueryOrderParamsDto queryOrderParamsDto);
 }

@@ -2,23 +2,29 @@ package com.psychic.orders.service.ipml;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.psychic.base.execption.ServiceException;
+import com.psychic.base.model.PageParams;
+import com.psychic.base.model.PageResult;
 import com.psychic.base.utils.IdWorkerUtils;
 import com.psychic.base.utils.QRCodeUtil;
 import com.psychic.messagesdk.model.po.MqMessage;
 import com.psychic.messagesdk.service.MqMessageService;
 import com.psychic.orders.config.PayNotifyConfig;
+import com.psychic.orders.feignclient.AuthServiceClient;
 import com.psychic.orders.mapper.XcOrdersGoodsMapper;
 import com.psychic.orders.mapper.XcOrdersMapper;
 import com.psychic.orders.mapper.XcPayRecordMapper;
 import com.psychic.orders.model.dto.AddOrderDto;
 import com.psychic.orders.model.dto.PayRecordDto;
 import com.psychic.orders.model.dto.PayStatusDto;
+import com.psychic.orders.model.dto.QueryOrderParamsDto;
 import com.psychic.orders.model.po.XcOrders;
 import com.psychic.orders.model.po.XcOrdersGoods;
 import com.psychic.orders.model.po.XcPayRecord;
 import com.psychic.orders.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageDeliveryMode;
@@ -57,6 +63,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private AuthServiceClient authServiceClient;
 
     @Transactional
     @Override
@@ -224,6 +233,60 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public PageResult<XcOrders> page(String companyId, PageParams pageParams, QueryOrderParamsDto queryOrderParamsDto) {
+        LambdaQueryWrapper<XcOrders> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        lambdaQueryWrapper.eq(XcOrders::getCompanyId,companyId);
+
+        // 订单号
+        lambdaQueryWrapper.like(
+                queryOrderParamsDto.getOrderNo() != null,
+                XcOrders::getId,
+                queryOrderParamsDto.getOrderNo()
+        );
+
+        // 用户ID
+        lambdaQueryWrapper.eq(
+                StringUtils.isNotBlank(queryOrderParamsDto.getUserId()),
+                XcOrders::getUserId,
+                queryOrderParamsDto.getUserId()
+        );
+
+        // 课程名称（模糊查询）
+        lambdaQueryWrapper.like(
+                StringUtils.isNotBlank(queryOrderParamsDto.getCourseName()),
+                XcOrders::getOrderName,   // 如果你实体里叫 orderName 就改成 XcOrders::getOrderName
+                queryOrderParamsDto.getCourseName()
+        );
+
+        // 订单状态
+        lambdaQueryWrapper.eq(
+                StringUtils.isNotBlank(queryOrderParamsDto.getStatus()),
+                XcOrders::getStatus,
+                queryOrderParamsDto.getStatus()
+        );
+
+        lambdaQueryWrapper.between(
+                queryOrderParamsDto.getOrderStart() != null && queryOrderParamsDto.getOrderEnd() != null,
+                XcOrders::getCreateDate,
+                queryOrderParamsDto.getOrderStart(),
+                queryOrderParamsDto.getOrderEnd()
+        );
+        //分页对象
+        Page<XcOrders> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
+        // 查询数据内容获得结果
+        Page<XcOrders> pageResult = ordersMapper.selectPage(page, lambdaQueryWrapper);
+        // 获取数据列表
+        List<XcOrders> list = (List<XcOrders>) pageResult.getRecords();
+        // 获取数据总数
+        long total = pageResult.getTotal();
+        // 构建结果集
+        PageResult<XcOrders> result = new PageResult<>(list, total, pageParams.getPageNo(), pageParams.getPageSize());
+        return result;
+
+    }
+
     @Transactional
     public XcOrders saveXcOrders(String userId, AddOrderDto addOrderDto){
         //幂等性处理
@@ -244,6 +307,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDetail(addOrderDto.getOrderDetail());
         order.setOrderDescrip(addOrderDto.getOrderDescrip());
         order.setOutBusinessId(addOrderDto.getOutBusinessId());//选课记录id
+        order.setCompanyId(addOrderDto.getCompanyId());
         ordersMapper.insert(order);
         String orderDetailJson = addOrderDto.getOrderDetail();
         List<XcOrdersGoods> xcOrdersGoodsList = JSON.parseArray(orderDetailJson, XcOrdersGoods.class);
