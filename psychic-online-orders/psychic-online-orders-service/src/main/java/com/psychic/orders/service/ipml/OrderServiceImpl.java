@@ -287,6 +287,29 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public PageResult<XcOrders> myOrderPage(String id, PageParams pageParams, QueryOrderParamsDto queryOrderParamsDto) {
+        LambdaQueryWrapper<XcOrders> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(XcOrders::getUserId,id);
+        // 订单状态
+        lambdaQueryWrapper.eq(
+                StringUtils.isNotBlank(queryOrderParamsDto.getStatus()),
+                XcOrders::getStatus,
+                queryOrderParamsDto.getStatus()
+        );
+        //分页对象
+        Page<XcOrders> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
+        // 查询数据内容获得结果
+        Page<XcOrders> pageResult = ordersMapper.selectPage(page, lambdaQueryWrapper);
+        // 获取数据列表
+        List<XcOrders> list = (List<XcOrders>) pageResult.getRecords();
+        // 获取数据总数
+        long total = pageResult.getTotal();
+        // 构建结果集
+        PageResult<XcOrders> result = new PageResult<>(list, total, pageParams.getPageNo(), pageParams.getPageSize());
+        return result;
+    }
+
     @Transactional
     public XcOrders saveXcOrders(String userId, AddOrderDto addOrderDto){
         //幂等性处理

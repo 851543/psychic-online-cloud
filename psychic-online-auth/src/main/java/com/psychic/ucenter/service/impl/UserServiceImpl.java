@@ -7,10 +7,12 @@ import com.psychic.base.execption.ServiceException;
 import com.psychic.base.utils.EmailUtil;
 import com.psychic.base.utils.RandomCodeUtil;
 import com.psychic.redis.RedisCache;
+import com.psychic.ucenter.feignclient.MediaServiceClient;
 import com.psychic.ucenter.mapper.XcMenuMapper;
 import com.psychic.ucenter.mapper.XcUserMapper;
 import com.psychic.ucenter.model.dto.AuthParamsDto;
 import com.psychic.ucenter.model.dto.RegisterDTO;
+import com.psychic.ucenter.model.dto.UploadFileResultDto;
 import com.psychic.ucenter.model.dto.XcUserExt;
 import com.psychic.ucenter.model.po.XcMenu;
 import com.psychic.ucenter.model.po.XcUser;
@@ -27,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,6 +59,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     RedisCache redisCache;
+
+    @Autowired
+    MediaServiceClient mediaServiceClient;
 
     /**
      * @description 查询用户信息组成用户身份信息
@@ -185,6 +191,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public String[] getUserIds(String companyId) {
         return xcUserMapper.selectByCompanyId(companyId);
+    }
+
+    @Override
+    public String pic(String id, MultipartFile file) {
+        UploadFileResultDto pic = mediaServiceClient.uploadFile(file, null, "88888888");
+        String url = pic.getUrl();
+        XcUser xcUser = xcUserMapper.selectById(id);
+        xcUser.setUserpic(url);
+        xcUserMapper.updateById(xcUser);
+        return url;
     }
 
     /**

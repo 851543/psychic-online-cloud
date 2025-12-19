@@ -54,4 +54,6 @@ public interface OrderService {
     public void notifyPayResult(MqMessage message);
 
     PageResult<XcOrders> page(String companyId, PageParams pageParams, QueryOrderParamsDto queryOrderParamsDto);
+
+    PageResult<XcOrders> myOrderPage(String id, PageParams pageParams, QueryOrderParamsDto queryOrderParamsDto);
 }

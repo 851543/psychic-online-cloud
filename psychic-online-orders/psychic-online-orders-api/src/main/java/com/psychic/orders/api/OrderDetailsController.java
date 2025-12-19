@@ -23,4 +23,10 @@ public class OrderDetailsController {
         SecurityUtil.XcUser user = SecurityUtil.getUser();
         return orderService.page(user.getCompanyId(),pageParams,queryOrderParamsDto);
     }
+
+    @PostMapping("/my-list")
+    public PageResult<XcOrders> myOrderPage(PageParams pageParams, @RequestBody QueryOrderParamsDto queryOrderParamsDto){
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        return orderService.myOrderPage(user.getId(),pageParams,queryOrderParamsDto);
+    }
 }
