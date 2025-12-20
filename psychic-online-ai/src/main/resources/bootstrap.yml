@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: ai
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: psychic-dev
+        group: psychic-online
+      config:
+        namespace: psychic-dev
+        group: psychic-online
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs:
+          - data-id: logging-${spring.profiles.active}.yaml
+            group: psychic-online-common
+            refresh: true
+
+  profiles:
+    active: dev
