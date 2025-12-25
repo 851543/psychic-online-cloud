@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.psychic.base.enums.CommonError;
 import com.psychic.base.execption.ServiceException;
+import com.psychic.base.utils.HttpUtils;
 import com.psychic.content.config.MultipartSupportConfig;
 import com.psychic.content.mapper.*;
 import com.psychic.content.feignclient.MediaServiceClient;
@@ -15,6 +16,7 @@ import com.psychic.content.service.CourseBaseInfoService;
 import com.psychic.content.service.CoursePublishService;
 import com.psychic.content.service.CourseTeacherService;
 import com.psychic.content.service.TeachplanService;
+import com.psychic.content.service.sse.SseServer;
 import com.psychic.content.util.SecurityUtil;
 import com.psychic.messagesdk.model.po.MqMessage;
 import com.psychic.messagesdk.service.MqMessageService;
@@ -150,9 +152,10 @@ public class CoursePublishServiceImpl implements CoursePublishService {
             coursePublishPreMapper.updateById(coursePublishPre);
         }
 
-        //更新课程基本表的审核状态 默认通过审核
-        courseBase.setAuditStatus("202004");
-        courseBaseMapper.updateById(courseBase);
+        MqMessage mqMessage = mqMessageService.addMessage("course_commitAudit", String.valueOf(courseId), null, null);
+        if(mqMessage==null){
+            throw new ServiceException(CommonError.UNKOWN_ERROR);
+        }
     }
 
     public void publishReview(){

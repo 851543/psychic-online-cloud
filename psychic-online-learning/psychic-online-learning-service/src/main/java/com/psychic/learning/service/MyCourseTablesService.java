@@ -49,4 +49,6 @@ public interface MyCourseTablesService {
      * @date 2022/10/27 9:24
      */
     public PageResult<XcCourseTables> mycourestabls(MyCourseTableParams params);
+
+    public PageResult<XcCourseTables> mycourestablsAi(MyCourseTableParams params);
 }

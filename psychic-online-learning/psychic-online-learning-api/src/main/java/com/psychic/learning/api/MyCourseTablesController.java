@@ -11,6 +11,7 @@ import com.psychic.learning.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,4 +74,9 @@ public class MyCourseTablesController {
         return courseTablesService.mycourestabls(params);
     }
 
+    @ApiOperation("我的课程表-ai")
+    @GetMapping("/mycoursetable/ai")
+    public PageResult<XcCourseTables> mycoursetableAi(MyCourseTableParams params) {
+        return courseTablesService.mycourestablsAi(params);
+    }
 }

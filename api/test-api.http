@@ -55,3 +55,6 @@ GET {{gateway_host}}/content/courseoffline/138
 
 ###
 POST {{gateway_host}}/order/orders/org-list
+
+###
+GET http://localhost:63020/learning/mycoursetable?userId=1

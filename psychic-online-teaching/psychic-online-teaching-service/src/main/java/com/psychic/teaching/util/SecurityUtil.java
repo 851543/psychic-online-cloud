@@ -1,6 +1,7 @@
 package com.psychic.teaching.util;
 
 import com.alibaba.fastjson.JSON;
+import com.psychic.base.execption.LoginException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
