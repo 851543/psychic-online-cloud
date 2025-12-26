@@ -3,6 +3,7 @@ package com.psychic.content.api;
 import com.psychic.content.model.dto.BindTeachplanMediaDto;
 import com.psychic.content.model.dto.SaveTeachplanDto;
 import com.psychic.content.model.dto.TeachplanDto;
+import com.psychic.content.model.po.Teachplan;
 import com.psychic.content.service.TeachplanService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,5 +43,11 @@ public class TeachplanController {
     @PostMapping("/teachplan/association/media")
     public void associationMedia(@RequestBody BindTeachplanMediaDto bindTeachplanMediaDto){
         teachplanService.associationMedia(bindTeachplanMediaDto);
+    }
+
+    @ApiOperation(value = "获取课程计划信息")
+    @GetMapping("/teachplan/{courseId}")
+    public Teachplan getTeachplan(@PathVariable Long courseId){
+        return teachplanService.getTeachplan(courseId);
     }
 }

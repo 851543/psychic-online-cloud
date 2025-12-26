@@ -3,6 +3,7 @@ package com.psychic.content.service;
 import com.psychic.content.model.dto.BindTeachplanMediaDto;
 import com.psychic.content.model.dto.SaveTeachplanDto;
 import com.psychic.content.model.dto.TeachplanDto;
+import com.psychic.content.model.po.Teachplan;
 import com.psychic.content.model.po.TeachplanMedia;
 
 import java.util.List;
@@ -35,4 +36,6 @@ public interface TeachplanService {
      * @date 2022/9/14 22:20
      */
     public TeachplanMedia associationMedia(BindTeachplanMediaDto bindTeachplanMediaDto);
+
+    Teachplan getTeachplan(Long courseId);
 }

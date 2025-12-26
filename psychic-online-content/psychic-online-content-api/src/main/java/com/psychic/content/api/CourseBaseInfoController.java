@@ -60,4 +60,10 @@ public class CourseBaseInfoController {
         String companyId = user.getCompanyId();
         return courseBaseInfoService.updateCourseBase(Long.valueOf(companyId),editCourseDto);
     }
+
+    @ApiOperation("删除课程")
+    @DeleteMapping("/course/{id}")
+    public void del(@PathVariable Long id){
+        courseBaseInfoService.del(id);
+    }
 }

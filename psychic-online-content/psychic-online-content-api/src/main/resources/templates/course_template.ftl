@@ -67,7 +67,7 @@
 
                 </a>
             </p>
-            <p class="vid-act"><span> <i class="i-heart"></i>收藏 88 </span> <span>分享 <i class="i-weixin"></i><i class="i-qq"></i></span></p>
+<#--            <p class="vid-act"><span> <i class="i-heart"></i>收藏 88 </span> <span>分享 <i class="i-weixin"></i><i class="i-qq"></i></span></p>-->
         </div>
     </div>
 </div>
@@ -187,7 +187,9 @@
                     <div class="content">
                         <#list model.teachplans as firstNode>
                             <div class="item">
-                                <div class="title act"><i class="i-chevron-top"></i>${firstNode.pname}<span class="time">x小时</span></div>
+                                <div class="title act"><i class="i-chevron-top"></i>${firstNode.pname}
+<#--                                    <span class="time">x小时</span>-->
+                                </div>
                                 <div class="drop-down" style="height: 260px;">
                                     <ul class="list-box">
                                         <#list firstNode.teachPlanTreeNodes as secondNode>

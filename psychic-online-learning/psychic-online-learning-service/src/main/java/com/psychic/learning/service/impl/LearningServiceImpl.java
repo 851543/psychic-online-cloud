@@ -5,6 +5,7 @@ import com.psychic.base.model.PageParams;
 import com.psychic.base.model.PageResult;
 import com.psychic.base.model.RestResponse;
 import com.psychic.content.model.po.CoursePublish;
+import com.psychic.content.model.po.Teachplan;
 import com.psychic.learning.feignclient.AuthServiceClient;
 import com.psychic.learning.feignclient.ContentServiceClient;
 import com.psychic.learning.feignclient.MediaServiceClient;
@@ -40,7 +41,6 @@ public class LearningServiceImpl implements LearningService {
         if(coursepublish==null){
             throw new ServiceException("课程信息不存在");
         }
-        //校验学习资格
 
         //如果登录
         if(StringUtils.isNotEmpty(userId)){
@@ -62,9 +62,11 @@ public class LearningServiceImpl implements LearningService {
             return mediaServiceClient.getPlayUrlByMediaId(mediaId);
         }
 
+        Teachplan teachplan = contentServiceClient.getTeachplan(teachplanId);
+        if (teachplan.getIsPreview().equals("1")){
+            return mediaServiceClient.getPlayUrlByMediaId(mediaId);
+        }
         return RestResponse.validfail("请购买课程后继续学习");
-
-
     }
 
     @Override

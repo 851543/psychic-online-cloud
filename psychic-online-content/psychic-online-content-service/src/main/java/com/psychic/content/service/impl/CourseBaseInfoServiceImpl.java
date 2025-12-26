@@ -5,16 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.psychic.base.execption.ServiceException;
 import com.psychic.base.model.PageParams;
 import com.psychic.base.model.PageResult;
-import com.psychic.content.mapper.CourseBaseMapper;
-import com.psychic.content.mapper.CourseCategoryMapper;
-import com.psychic.content.mapper.CourseMarketMapper;
+import com.psychic.content.mapper.*;
 import com.psychic.content.model.dto.AddCourseDto;
 import com.psychic.content.model.dto.CourseBaseInfoDto;
 import com.psychic.content.model.dto.EditCourseDto;
 import com.psychic.content.model.dto.QueryCourseParamsDto;
-import com.psychic.content.model.po.CourseBase;
-import com.psychic.content.model.po.CourseCategory;
-import com.psychic.content.model.po.CourseMarket;
+import com.psychic.content.model.po.*;
 import com.psychic.content.service.CourseBaseInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -43,12 +39,21 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     @Autowired
     private CourseCategoryMapper courseCategoryMapper;
 
+    @Autowired
+    CoursePublishMapper coursePublishMapper;
+
+    @Autowired
+    private TeachplanMapper teachplanMapper;
+
+    @Autowired
+    TeachplanMediaMapper teachplanMediaMapper;
+
     @Override
     public PageResult<CourseBase> queryCourseBaseList(Long companyId, PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
         //构建查询条件对象
         LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
         //机构id
-        queryWrapper.eq(CourseBase::getCompanyId,companyId);
+        queryWrapper.eq(CourseBase::getCompanyId, companyId);
         //构建查询条件，根据课程名称查询
         queryWrapper.like(StringUtils.isNotEmpty(queryCourseParamsDto.getCourseName()), CourseBase::getName, queryCourseParamsDto.getCourseName());
         //构建查询条件，根据课程审核状态查询
@@ -134,17 +139,17 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         //课程id
         Long courseId = dto.getId();
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
-        if(courseBase==null){
+        if (courseBase == null) {
             throw new ServiceException("课程不存在");
         }
 
         //校验本机构只能修改本机构的课程
-        if(!courseBase.getCompanyId().equals(companyId)){
+        if (!courseBase.getCompanyId().equals(companyId)) {
             throw new ServiceException("本机构只能修改本机构的课程");
         }
 
         //封装基本信息的数据
-        BeanUtils.copyProperties(dto,courseBase);
+        BeanUtils.copyProperties(dto, courseBase);
         courseBase.setChangeDate(LocalDateTime.now());
 
         //更新课程基本信息
@@ -152,12 +157,25 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 
         //封装营销信息的数据
         CourseMarket courseMarket = new CourseMarket();
-        BeanUtils.copyProperties(dto,courseMarket);
+        BeanUtils.copyProperties(dto, courseMarket);
         saveCourseMarket(courseMarket);
         //查询课程信息
         CourseBaseInfoDto courseBaseInfo = this.getCourseBaseInfo(courseId);
         return courseBaseInfo;
 
+    }
+
+    @Transactional
+    @Override
+    public void del(Long id) {
+        courseBaseMapper.deleteById(id);
+        coursePublishMapper.deleteById(id);
+        teachplanMapper.delete(new LambdaQueryWrapper<Teachplan>()
+                .eq(Teachplan::getCourseId, id)
+        );
+        teachplanMediaMapper.delete(new LambdaQueryWrapper<TeachplanMedia>()
+                .eq(TeachplanMedia::getCourseId, id)
+        );
     }
 
     //保存课程营销信息

@@ -20,6 +20,14 @@ public class SearchServiceClientFallbackFactory implements FallbackFactory<Searc
 
                 return false;
             }
+
+            @Override
+            public Boolean del(String id) {
+                throwable.printStackTrace();
+                log.debug("调用搜索发生熔断走降级方法,熔断异常:", throwable.getMessage());
+
+                return false;
+            }
         };
     }
 }

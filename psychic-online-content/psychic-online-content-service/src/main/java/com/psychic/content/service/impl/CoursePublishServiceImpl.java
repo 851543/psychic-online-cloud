@@ -6,6 +6,7 @@ import com.psychic.base.enums.CommonError;
 import com.psychic.base.execption.ServiceException;
 import com.psychic.base.utils.HttpUtils;
 import com.psychic.content.config.MultipartSupportConfig;
+import com.psychic.content.feignclient.SearchServiceClient;
 import com.psychic.content.mapper.*;
 import com.psychic.content.feignclient.MediaServiceClient;
 import com.psychic.content.model.dto.CourseBaseInfoDto;
@@ -76,6 +77,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     CourseTeacherService courseTeacherService;
+
+    @Autowired
+    SearchServiceClient searchServiceClient;
 
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
@@ -306,9 +310,12 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         return coursePublish ;
     }
 
-    @Transactional
     @Override
     public void offline(Long courseId) {
+        Boolean del = searchServiceClient.del(courseId.toString());
+        if (!del){
+            throw new ServiceException("下架课程失败");
+        }
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         courseBase.setAuditStatus("202002");
         courseBase.setStatus("203004");

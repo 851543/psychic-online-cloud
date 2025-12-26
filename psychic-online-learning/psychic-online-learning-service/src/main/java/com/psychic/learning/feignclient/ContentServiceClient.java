@@ -1,6 +1,7 @@
 package com.psychic.learning.feignclient;
 
 import com.psychic.content.model.po.CoursePublish;
+import com.psychic.content.model.po.Teachplan;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,4 +20,7 @@ public interface ContentServiceClient {
     @GetMapping("/content/r/coursepublish/{courseId}")
     public CoursePublish getCoursepublish(@PathVariable("courseId") Long courseId);
 
+    @ResponseBody
+    @GetMapping("/content/teachplan/{courseId}")
+    public Teachplan getTeachplan(@PathVariable("courseId") Long courseId);
 }

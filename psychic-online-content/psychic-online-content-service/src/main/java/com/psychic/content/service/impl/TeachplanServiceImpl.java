@@ -98,4 +98,9 @@ public class TeachplanServiceImpl implements TeachplanService {
         teachplanMediaMapper.insert(teachplanMedia);
         return teachplanMedia;
     }
+
+    @Override
+    public Teachplan getTeachplan(Long courseId) {
+        return teachplanMapper.selectById(courseId);
+    }
 }
