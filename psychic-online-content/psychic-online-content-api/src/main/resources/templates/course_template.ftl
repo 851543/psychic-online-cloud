@@ -75,8 +75,8 @@
     <div class="tit-list">
         <a href="javascript:;" id="articleClass" class="active">课程介绍</a>
         <a href="javascript:;" id="articleItem">目录</a>
-        <a href="javascript:;" id="artcleAsk">问答</a>
-        <a href="javascript:;" id="artcleNot">笔记</a>
+<#--        <a href="javascript:;" id="artcleAsk">问答</a>-->
+<#--        <a href="javascript:;" id="artcleNot">笔记</a>-->
         <a href="javascript:;" id="artcleCod">评价</a>
         <!--<div class="down-fill">
             <span>资料下载</span>
@@ -472,151 +472,9 @@
         </div>
         <div class="artcleCod" style="display: none;">
             <div class="article-cont">
-                <div class="article-left-box">
-                    <div class="comment-box">
-                        <div class="evaluate">
-                            <div class="eva-top">
-                                <div class="tit">课程评分 </div>
-                                <div class="star">
-                                    <div class="score"><i>5</i></div>
-                                </div><span class="star-score"> <i>5</i> 分</span></div>
-                            <div class="eva-cont">
-                                <div class="tit">学员评语 </div>
-                                <div class="text-box">
-                                    <textarea class="form-control" rows="5" placeholder="扯淡、吐槽、表扬、鼓励......想说啥说啥！"></textarea>
-                                    <div class="text-right"><span>发表评论</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="course-evaluate">
-                            <div class="top-tit">评论
-                                <span>
-                        <label><input name="eval" type="radio" value="" checked /> 所有学生 </label>
-                        <label><input name="eval" type="radio" value="" /> 完成者 </label>
-                    </span>
-                            </div>
-                            <div class="top-cont">
-                                <div class="cont-top-left">
-                                    <div class="star-scor">
-                                        <div class="star-show">
-                                            <div class="score"><i>5</i></div>
-                                        </div>
-                                        <div class="scor">4.9分</div>
-                                    </div>
-                                    <div class="all-scor">总评分：12343</div>
-                                </div>
-                                <div class="cont-top-right">
-                                    <div class="star-grade">五星
-                                        <div class="grade">
-                                            <div class="grade-percent"><span></span></div>
-                                            <div class="percent-num"><i>95</i>%</div>
-                                        </div>
-                                    </div>
-                                    <div class="star-grade">四星
-                                        <div class="grade">
-                                            <div class="grade-percent"><span></span></div>
-                                            <div class="percent-num"><i>5</i>%</div>
-                                        </div>
-                                    </div>
-                                    <div class="star-grade">三星
-                                        <div class="grade">
-                                            <div class="grade-percent"><span></span></div>
-                                            <div class="percent-num"><i>0</i>%</div>
-                                        </div>
-                                    </div>
-                                    <div class="star-grade">二星
-                                        <div class="grade">
-                                            <div class="grade-percent"><span></span></div>
-                                            <div class="percent-num"><i>2</i>%</div>
-                                        </div>
-                                    </div>
-                                    <div class="star-grade">一星
-                                        <div class="grade">
-                                            <div class="grade-percent"><span></span></div>
-                                            <div class="percent-num"><i>1</i>%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment-item-box">
-                                <div class="title">评论 <span>12453条评论</span></div>
-                                <div class="item">
-                                    <div class="item-left">
-                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
-                                        <p>彭彭老师</p>
-                                    </div>
-                                    <div class="item-cent">
-                                        <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
-                                        <p class="time">2017-2-43</p>
-                                    </div>
-                                    <div class="item-rit">
-                                        <p>
-                                        <div class="star-show">
-                                            <div class="score"><i>4</i></div>
-                                        </div>
-                                        </p>
-                                        <p>评分 <span>5星</span></p>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="item-left">
-                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
-                                        <p>彭彭老师</p>
-                                    </div>
-                                    <div class="item-cent">
-                                        <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
-                                        <p class="time">2017-2-43</p>
-                                    </div>
-                                    <div class="item-rit">
-                                        <p>
-                                        <div class="star-show">
-                                            <div class="score"><i>5</i></div>
-                                        </div>
-                                        </p>
-                                        <p>评分 <span>5星</span></p>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="item-left">
-                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
-                                        <p>彭彭老师</p>
-                                    </div>
-                                    <div class="item-cent">
-                                        <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
-                                        <p class="time">2017-2-43</p>
-                                    </div>
-                                    <div class="item-rit">
-                                        <p>
-                                        <div class="star-show">
-                                            <div class="score"><i>5</i></div>
-                                        </div>
-                                        </p>
-                                        <p>评分 <span>5星</span></p>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="item-left">
-                                        <p><img src="/static/img/demo/pe.png" width="60px" alt=""></p>
-                                        <p>彭彭老师</p>
-                                    </div>
-                                    <div class="item-cent">
-                                        <p>很受用，如果再深入下就更好了。虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！虽然都是入门级别的，但是也很使用，后续就需要自己发挥了！</p>
-                                        <p class="time">2017-2-43</p>
-                                    </div>
-                                    <div class="item-rit">
-                                        <p>
-                                        <div class="star-show">
-                                            <div class="score"><i>5</i></div>
-                                        </div>
-                                        </p>
-                                        <p>评分 <span>5星</span></p>
-                                    </div>
-                                </div>
-                                <div class="get-more">页面加载中...</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--评论模块-->
+                <!--#include virtual="/include/course_detail_comment.html"-->
+                <!--评论模块-->
                 <!--侧边栏-->
                 <!--#include virtual="/include/course_detail_side.html"-->
                 <!--侧边栏-->
