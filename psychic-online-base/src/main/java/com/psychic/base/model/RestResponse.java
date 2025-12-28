@@ -87,10 +87,4 @@ public class RestResponse<T> {
   public static <T> RestResponse<T> success() {
    return new RestResponse<T>();
   }
-
-
-  public Boolean isSuccessful() {
-   return this.code == 0;
-  }
-
  }
