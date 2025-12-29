@@ -7,7 +7,9 @@ import com.psychic.base.execption.ServiceException;
 import com.psychic.base.model.PageParams;
 import com.psychic.base.model.PageResult;
 import com.psychic.teaching.mapper.WorkMapper;
+import com.psychic.teaching.mapper.WorkRecordMapper;
 import com.psychic.teaching.model.Work;
+import com.psychic.teaching.model.WorkRecord;
 import com.psychic.teaching.model.vo.WorkVO;
 import com.psychic.teaching.service.WorkService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,6 +26,9 @@ public class WorkServiceImpl implements WorkService {
 
     @Autowired
     WorkMapper workMapper;
+
+    @Autowired
+    WorkRecordMapper workRecordMapper;
 
     @Override
     public PageResult<WorkVO> list(Long companyId, PageParams pageParams) {
@@ -53,16 +58,48 @@ public class WorkServiceImpl implements WorkService {
         Work workRe = workMapper.selectOne(new LambdaQueryWrapper<Work>()
                 .eq(Work::getTeachplanId, work.getTeachplanId())
         );
-        if (ObjectUtils.isNotEmpty(workRe)){
+        if (ObjectUtils.isNotEmpty(workRe)) {
             throw new ServiceException("课程对应的章节已存在绑定作业");
         }
         Work newWork = workMapper.selectById(work.getId());
         newWork.setTeachplanId(work.getTeachplanId());
+        newWork.setCourseId(work.getCourseId());
         workMapper.updateById(newWork);
     }
 
     @Override
     public void del(Long id) {
         workMapper.deleteById(id);
+    }
+
+    @Override
+    public List<Work> getWork(Long courseId) {
+        return workMapper.selectList(new LambdaQueryWrapper<Work>()
+                .eq(Work::getCourseId, courseId)
+        );
+    }
+
+    @Override
+    public void addRecord(WorkRecord workRecord) {
+        workRecordMapper.insert(workRecord);
+    }
+
+    @Override
+    public PageResult<WorkRecord> recordList(PageParams pageParams) {
+        Page<WorkRecord> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
+        Page<WorkRecord> pageResult = workRecordMapper.selectPage(page,new LambdaQueryWrapper<>());
+        List<WorkRecord> list = (List<WorkRecord>) pageResult.getRecords();
+        long total = pageResult.getTotal();
+        return new PageResult<WorkRecord>(list, total, pageParams.getPageNo(), pageParams.getPageSize());
+    }
+
+    @Override
+    public void correction(WorkRecord workRecord) {
+        WorkRecord old = workRecordMapper.selectById(workRecord.getId());
+        old.setCorrectComment(workRecord.getCorrectComment());
+        old.setCorrectUsername(workRecord.getCorrectUsername());
+        old.setStatus("306003");
+        old.setCorrectionDate(LocalDateTime.now());
+        workRecordMapper.updateById(old);
     }
 }

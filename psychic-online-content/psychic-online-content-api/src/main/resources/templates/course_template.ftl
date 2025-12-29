@@ -77,6 +77,7 @@
         <a href="javascript:;" id="articleItem">目录</a>
 <#--        <a href="javascript:;" id="artcleAsk">问答</a>-->
 <#--        <a href="javascript:;" id="artcleNot">笔记</a>-->
+        <a href="javascript:;" id="artcleWork">作业</a>
         <a href="javascript:;" id="artcleCod">评价</a>
         <!--<div class="down-fill">
             <span>资料下载</span>
@@ -478,6 +479,13 @@
                 <!--侧边栏-->
                 <!--#include virtual="/include/course_detail_side.html"-->
                 <!--侧边栏-->
+            </div>
+        </div>
+        <div class="artcleWork" style="display: none;">
+            <div class="article-cont">
+                <!--作业-->
+                <!--#include virtual="/include/course_detail_work.html"-->
+                <!--作业-->
             </div>
         </div>
     </div>

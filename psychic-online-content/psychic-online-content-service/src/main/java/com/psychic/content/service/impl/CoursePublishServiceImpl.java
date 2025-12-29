@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.psychic.base.enums.CommonError;
 import com.psychic.base.execption.ServiceException;
 import com.psychic.base.utils.HttpUtils;
+import com.psychic.base.utils.VideoUtil;
 import com.psychic.content.config.MultipartSupportConfig;
 import com.psychic.content.feignclient.SearchServiceClient;
 import com.psychic.content.mapper.*;
@@ -25,9 +26,11 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -81,6 +84,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     @Autowired
     SearchServiceClient searchServiceClient;
 
+    @Value("${videoprocess.ffmpegpath}")
+    String ffmpegpath;
+
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
 
@@ -88,10 +94,24 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         CourseBaseInfoDto courseBaseInfo = courseBaseInfoService.getCourseBaseInfo(courseId);
 
         //课程计划信息
-        List<TeachplanDto> teachplanTree= teachplanService.findTeachplanTree(courseId);
+        List<TeachplanDto> teachplanTree = teachplanService.findTeachplanTree(courseId);
+
+//        VideoUtil videoUtil = new VideoUtil(ffmpegpath);
+//        teachplanTree.forEach(item->{
+//            if (ObjectUtils.isNotEmpty(item.getTeachPlanTreeNodes())){
+//                item.getTeachPlanTreeNodes().forEach(node->{
+//                    if (ObjectUtils.isNotEmpty(node.getTeachplanMedia())) {
+//                        String video_time = videoUtil.get_video_time(node.getTeachplanMedia().getMediaFilename());
+//                        System.out.println("===============================" + video_time);
+//                    }
+//                });
+//            }
+//        });
 
         //师资
         List<CourseTeacher> teacher = courseTeacherService.getTeacher(courseId);
+
+
 
         CoursePreviewDto coursePreviewDto = new CoursePreviewDto();
         coursePreviewDto.setCourseBase(courseBaseInfo);

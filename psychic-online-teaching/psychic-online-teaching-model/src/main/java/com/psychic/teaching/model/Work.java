@@ -19,6 +19,8 @@ public class Work {
 
     private Long companyId;
 
+    private Long courseId;
+
     private Long teachplanId;
 
     /**
